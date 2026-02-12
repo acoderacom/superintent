@@ -1,0 +1,24 @@
+{
+  "name": "acodera",
+  "owner": {
+    "name": "Acodera",
+    "email": "ai@acodera.com"
+  },
+  "plugins": [
+    {
+      "name": "superintent",
+      "source": "./",
+      "description": "Superintent Development - Intent drives the work. AI learns from every cycle. Knowledge compounds the results.",
+      "version": "0.0.1",
+      "author": {
+        "name": "Acodera",
+        "email": "ai@acodera.com"
+      },
+      "repository": "https://github.com/acoderacom/superintent",
+      "license": "MIT",
+      "keywords": ["superintent", "ticket-management", "knowledge-base", "spec", "turso", "agentic-workflow"],
+      "category": "productivity",
+      "tags": ["development", "project-management", "knowledge", "ai-workflow"]
+    }
+  ]
+}

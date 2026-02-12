@@ -1,0 +1,20 @@
+{
+  "name": "superintent",
+  "version": "0.0.1",
+  "description": "Superintent Development - Intent drives the work. AI learns from every cycle. Knowledge compounds the results.",
+  "author": {
+    "name": "Acodera",
+    "url": "https://github.com/acoderacom"
+  },
+  "repository": "https://github.com/acoderacom/superintent",
+  "homepage": "https://github.com/acoderacom/superintent",
+  "license": "MIT",
+  "keywords": [
+    "superintent",
+    "ticket-management",
+    "knowledge-base",
+    "spec",
+    "turso",
+    "agentic-workflow"
+  ]
+}

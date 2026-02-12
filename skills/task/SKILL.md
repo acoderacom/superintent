@@ -1,0 +1,34 @@
+---
+name: task
+description: Quick execution for confident, low-risk changes. Triggers on "quick fix", "just do it", "simple change", or "/task". Skips ceremony, preserves knowledge.
+---
+
+# Task
+
+Skip ceremony, preserve knowledge. The lightweight entry point in the superintent loop.
+
+**When to use:** Simple fixes, obvious changes, Class A only.
+**When NOT to use:** Complex features, unclear requirements, Class B/C → `/ticket`.
+
+## Workflow
+
+### Step 1: Recall — Search What We Already Know
+
+Before asking questions, search the knowledge base — the source of truth.
+
+```bash
+npx superintent search "<user's intent keywords>" --limit 5
+```
+
+**Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
+
+**Don't explore codebase yet** — knowledge informs exploration in Step 2.
+
+## Step 2: Implementation
+
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
+2. Implement directly — no ticket, no task tracking
+3. Run checks (test, lint, typecheck)
+4. Fix failures → re-run
+
+**Complexity check:** If unclear or risky → "This seems complex, switch to `/ticket`?"
