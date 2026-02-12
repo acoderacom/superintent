@@ -1,5 +1,42 @@
 # Superintent Claude Code Plugin
 
+## Prerequisites
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI installed
+- Node.js 18+ and npm
+
+## Installation
+
+### 1. Install the plugin
+
+In Claude Code, register the marketplace first:
+
+```
+/plugin marketplace add acoderacom/superintent
+```
+
+Then install the plugin from this marketplace:
+
+```
+/plugin install superintent
+```
+
+### 2. Set up your project
+
+Open Claude Code in your project directory and run:
+
+```
+/superintent:setup
+```
+
+This will:
+- Verify the `superintent` CLI is available (installed automatically via `npx`)
+- Choose a database mode (local SQLite or Turso Cloud)
+- Initialize the database
+- Configure your project's `CLAUDE.md`
+
+> The `superintent` CLI ([npm](https://www.npmjs.com/package/superintent)) is invoked via `npx superintent` — no global install required.
+
 ## What is superintent?
 
 superintent is a development framework where your intent drives the entire cycle — from idea to code to knowledge. Unlike typical AI coding tools that start from zero every session, superintent **compounds**. Every cycle makes the next one smarter.
@@ -51,6 +88,19 @@ superintent is **compound**. Each cycle adds knowledge. After 10 cycles, superin
 - **CLI Bridge** — `superintent` connects to the knowledge and ticket database
 - **Vector DB** — Searchable knowledge that compounds over time
 - **Human-in-the-loop** — You stay in control at the decision points
+
+## Usage
+
+Once installed, use these slash commands in Claude Code:
+
+| Command | Purpose |
+| --- | --- |
+| `/spec` | Design big features, break them into tickets |
+| `/ticket` | Create and execute development tickets |
+| `/task` | Quick, confident changes — skip the ceremony |
+| `/learn` | Capture knowledge from codebase exploration |
+| `/explain` | Answer questions from stored knowledge first |
+| `/maintain` | Keep `CLAUDE.md` in sync with the knowledge database |
 
 ## Core Principles
 
