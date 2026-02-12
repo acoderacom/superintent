@@ -9,7 +9,7 @@
       "name": "superintent",
       "source": "./",
       "description": "Superintent - Intent drives the work. AI learns from every cycle. Knowledge compounds the results.",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "author": {
         "name": "Acodera",
         "email": "ai@acodera.com"

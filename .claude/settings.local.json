@@ -1,17 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "mcp__Context7__resolve-library-id",
-      "mcp__Context7__query-docs",
-      "Bash(npx superintent *)",
-      "Bash(tree:*)",
-      "Bash(find:*)",
-      "Bash(xargs:*)"
+      "Bash(npx superintent *)"
     ]
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
-    "Context7",
-    "shopify-dev-mcp"
   ]
 }
