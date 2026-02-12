@@ -1,4 +1,4 @@
-# Superintent Development
+# Superintent Claude Code Plugin
 
 ## What is superintent?
 
