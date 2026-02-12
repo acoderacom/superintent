@@ -24,7 +24,7 @@ npx superintent search "<user's intent keywords>" --limit 5
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 2.
 
-## Step 2: Implementation
+### Step 2: Implementation
 
 1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
 2. Implement directly — no ticket, no task tracking

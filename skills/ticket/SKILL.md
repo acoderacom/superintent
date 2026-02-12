@@ -96,7 +96,7 @@ TICKET
 
 3. **Report** the ticket ID
 4. `AskUserQuestion`: "Want to start execution now, or keep it in backlog?"
-   - If start → ### Step 4: Implementation
+   - If start → ### Step 5: Implementation
 
 ### Step 5: Implementation
 

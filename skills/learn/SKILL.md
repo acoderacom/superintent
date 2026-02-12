@@ -1,6 +1,6 @@
 ---
 name: learn
-description: Capture knowledge from codebase exploration. Triggers on "learn how...", "document how...", "how does X work".
+description: Capture knowledge from codebase exploration. Triggers on "learn how...", "document how...", "remember how...", "save knowledge about...".
 ---
 
 # Learn
