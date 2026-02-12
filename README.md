@@ -1,97 +1,56 @@
-# Superintent Claude Code Plugin
+# Superintent
 
-## Prerequisites
+**Fast without compounding is waste.**
 
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI installed
-- Node.js 18+ and npm
+AI coding tools keep getting faster. Teams ship more code with less understanding every week. Six months in, you have a codebase that works and nobody can explain — including the AI that built it.
 
-## Installation
+Superintent is a Claude Code plugin that makes compounding the default. Every ticket leaves behind structured knowledge. Every cycle makes the next one smarter. The AI and the human both benefit — the AI stops starting from zero, the human gets a project that explains itself.
 
-### 1. Install the plugin
+## The Problem With Vibe Coding
 
-In Claude Code, register the marketplace first:
+Vibe coding works. That's what makes it dangerous.
 
-```
-/plugin marketplace add acoderacom/superintent
-```
+You get a working feature, you ship it, you move on. But nothing was captured. Nobody knows why it was built that way. Nobody knows what was considered and rejected. The gotcha that took 45 minutes to debug? Gone. The code exists but the understanding that produced it evaporated when the session ended.
 
-Then install the plugin from this marketplace:
-
-```
-/plugin install superintent
-```
-
-### 2. Set up your project
-
-Open Claude Code in your project directory and run:
-
-```
-/superintent:setup
-```
-
-This will:
-- Verify the `superintent` CLI is available (installed automatically via `npx`)
-- Choose a database mode (local SQLite or Turso Cloud)
-- Initialize the database
-- Configure your project's `CLAUDE.md`
-
-> The `superintent` CLI ([npm](https://www.npmjs.com/package/superintent)) is invoked via `npx superintent` — no global install required.
-
-## What is superintent?
-
-superintent is a development framework where your intent drives the entire cycle — from idea to code to knowledge. Unlike typical AI coding tools that start from zero every session, superintent **compounds**. Every cycle makes the next one smarter.
+The faster the tool, the worse this gets.
 
 ## The Loop
 
 ```
-  ┌──────────────────────────────────┐
-  │                                  │
-  ▼                                  │
-Intent ──► Work ──► Test ──► Compound
-                                │
-                        knowledge extracted
+Intent ──► Work ──► Review ──► Compound
+  ▲                                │
+  │         knowledge extracted    │
+  └────────────────────────────────┘
 ```
 
-**Intent** — Say what you want. superintent figures out the right size:
+**Intent** — Say what you want. Superintent matches the effort to the size:
+- `/spec` — Big features. Think first, break into tickets later.
+- `/ticket` — Standard work. Plan, build, review, extract.
+- `/task` — Small stuff. Just do it.
 
-- `/spec` — big features, breaks down into tickets
-- `/ticket` — standard work with planning and review
-- `/task` — small stuff, just do it
+**Work** — AI builds, informed by everything the project already knows. Not starting from zero.
 
-**Work** — AI builds it. Informed by knowledge from past cycles — patterns, architecture, gotchas, decisions. Not starting from zero.
+**Review** — Human decides. Approve, adjust, or reject. This is what makes the knowledge trustworthy.
 
-**Test** — Check if it's right. Automated checks (tests, lint, typecheck) + human review. The quality gate that makes compounding possible.
+**Compound** — Knowledge is extracted: what was built, how, why, what failed, what was rejected. Stored with structure, confidence scores, and semantic search. Feeds back into the next intent.
 
-**Compound** — Knowledge is extracted from completed work and stored. What was built, how, why, what went wrong. This feeds back into the next Intent, making it smarter.
+## Who Benefits
 
-## Why superintent?
+**The AI** searches knowledge before writing code. It avoids past mistakes, follows established patterns, and makes informed decisions instead of generic ones. Every cycle makes it more useful.
 
-Most AI coding tools are **flat**. They execute, but they don't learn. Every session is a blank slate. Same mistakes, same questions, no memory.
+**The human** gets a living project knowledge that writes itself. Architecture decisions with rationale. Gotchas with symptoms. Patterns with context. Not a documentation effort — a byproduct of the work you were already doing.
 
-superintent is **compound**. Each cycle adds knowledge. After 10 cycles, superintent knows your patterns. After 50, it knows your architecture. After 100, it knows your project better than a new hire.
+**New team members** onboard from the knowledge base. "Why did we do it this way?" has an answer before they ask.
 
-**The difference isn't the AI. It's the loop.**
+## Why the "Ceremony" Matters
 
-## How It Works
+When AI just executes without planning, you get code fast. You also get code with no documented rationale that will confuse everyone three weeks from now.
 
-1. You express an intent: _"Build a user authentication system"_
-2. superintent searches existing knowledge — has this project dealt with auth before?
-3. superintent specs the work at the right level — this is big, so `/spec` breaks it into tickets
-4. AI executes each ticket, informed by past knowledge
-5. You review — approve, adjust, or reject
-6. Knowledge is extracted: architecture decisions, patterns used, gotchas discovered
-7. Next time auth comes up, superintent already knows your approach
+The ticket workflow forces what developers skip when left to their instincts: *stop and think before you build.* Intent. Constraints. Change class. Edge cases. Rollback plan. That's not overhead — that's engineering discipline. The fact that AI is doing the building makes it more important, not less.
 
-## The Stack
+The first ticket you create already delivers value — not because the knowledge base returned anything, but because you made a better plan than you would have without it. The compounding comes later. The discipline is immediate.
 
-- **Skills** — Claude skills that drive each stage (spec, ticket, task, explain, learn)
-- **CLI Bridge** — `superintent` connects to the knowledge and ticket database
-- **Vector DB** — Searchable knowledge that compounds over time
-- **Human-in-the-loop** — You stay in control at the decision points
-
-## Usage
-
-Once installed, use these slash commands in Claude Code:
+## Commands
 
 | Command | Purpose |
 | --- | --- |
@@ -100,14 +59,49 @@ Once installed, use these slash commands in Claude Code:
 | `/task` | Quick, confident changes — skip the ceremony |
 | `/learn` | Capture knowledge from codebase exploration |
 | `/explain` | Answer questions from stored knowledge first |
-| `/maintain` | Keep `CLAUDE.md` in sync with the knowledge database |
+| `/maintain` | Sync the knowledge summary in `CLAUDE.md` |
 
-## Core Principles
+## Knowledge Categories
 
-**Intent over instruction.** Say what you want, not how to do it. superintent figures out the how.
+Every piece of extracted knowledge is typed:
+
+| Category | What it captures |
+| --- | --- |
+| **architecture** | How the system is structured |
+| **pattern** | Reusable approaches with why and when |
+| **truth** | Validated facts about the project |
+| **principle** | Rules the team follows and why |
+| **gotcha** | Things that failed and how to avoid them |
+
+Each entry carries a confidence score that grows with usage and decays with staleness.
+
+## Installation
+
+Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.js 18+.
+
+```
+/plugin marketplace add acoderacom/superintent
+/plugin install superintent
+```
+
+Then in your project:
+
+```
+/superintent:setup
+```
+
+> The CLI ([superintent on npm](https://www.npmjs.com/package/superintent)) runs via `npx` — no global install needed.
+
+## Principles
 
 **Compound over repeat.** Every cycle leaves behind knowledge. Nothing is wasted.
 
-**Right-sized work.** Not everything needs a plan. Not everything is a quick task. superintent matches the level to the intent.
+**Intent over instruction.** Say what you want, not how. The system figures out the how.
 
-**Human at the gates.** AI executes, human decides. The review step isn't a bottleneck — it's what makes the knowledge trustworthy.
+**Right-sized work.** Not everything needs a spec. Not everything is a quick task. Match the effort to the intent.
+
+**Human at the gates.** AI executes, human decides. Review isn't a bottleneck — it's what makes the knowledge trustworthy.
+
+## License
+
+MIT
