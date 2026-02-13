@@ -1,8 +1,8 @@
 # Superintent
 
-**Fast without compounding is waste.**
+**Imposing engineering discipline on AI-assisted development.**
 
-AI coding tools keep getting faster. Teams ship more code with less understanding every week. Six months in, you have a codebase that works and nobody can explain — including the AI that built it.
+AI coding tools keep getting faster. Teams ship more code with less understanding every week. Six months in, you have a codebase that works and nobody can explain — including the AI that built it. **Ship fast, forget faster.**
 
 Superintent is a Claude Code plugin that makes compounding the default. Every ticket leaves behind structured knowledge. Every cycle makes the next one smarter. The AI and the human both benefit — the AI stops starting from zero, the human gets a project that explains itself.
 
@@ -14,7 +14,7 @@ You get a working feature, you ship it, you move on. But nothing was captured. N
 
 The faster the tool, the worse this gets.
 
-## The Loop
+## The Superintent Loop
 
 ```
 Intent ──► Work ──► Review ──► Compound
@@ -79,18 +79,26 @@ Each entry carries a confidence score that grows with usage and decays with stal
 
 Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.js 18+.
 
+**1. Install the plugin**
+
 ```
 /plugin marketplace add acoderacom/superintent
 /plugin install superintent
 ```
 
-Then in your project:
+**2. Install the [CLI](https://www.npmjs.com/package/superintent)**
+
+No global install needed — runs via `npx`:
+
+```
+npx superintent@latest
+```
+
+**3. Initialize your project**
 
 ```
 /superintent:setup
 ```
-
-> The CLI ([superintent on npm](https://www.npmjs.com/package/superintent)) runs via `npx` — no global install needed.
 
 ## Principles
 
