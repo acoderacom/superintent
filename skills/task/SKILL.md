@@ -26,9 +26,10 @@ npx superintent search "<user's intent keywords>" --limit 5
 
 ### Step 2: Implementation
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad.
 2. Implement directly — no ticket, no task tracking
 3. Run checks (test, lint, typecheck)
 4. Fix failures → re-run
+5. Offer to extract knowledge only if the change produced something worth remembering (gotcha, pattern, architectural insight)
 
 **Complexity check:** If unclear or risky → "This seems complex, switch to `/ticket`?"

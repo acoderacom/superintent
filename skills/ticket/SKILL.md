@@ -34,7 +34,7 @@ Stop when the intent is clear. If simple requests suggest `/task`.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad.
 2. **Identify context** — files, patterns, dependencies involved
 3. **Surface constraints** — what to use/avoid (only if non-obvious from knowledge base)
 4. **Assess change class**:
