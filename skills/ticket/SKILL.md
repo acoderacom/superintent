@@ -15,7 +15,7 @@ The key insight: **past knowledge makes future tickets smarter**.
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --limit 5
+npx superintent search "<user's intent keywords>" --branch main --limit 5
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
@@ -34,7 +34,7 @@ Stop when the intent is clear. If simple requests suggest `/task`.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad.
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins.
 2. **Identify context** — files, patterns, dependencies involved
 3. **Surface constraints** — what to use/avoid (only if non-obvious from knowledge base)
 4. **Assess change class**:
@@ -74,10 +74,11 @@ npx superintent ticket create --stdin <<'TICKET'
    - Step detail
 
 **DoD → Verification:**
-- criterion → how to verify
+- criterion → how to verify (verification required)
+- another criterion → concrete verification step
 
 **Decisions:**
-- choice → reason
+- choice — reason
 
 **Trade-offs:**
 - considered: alternative | rejected: why not
@@ -109,7 +110,7 @@ TICKET
 ### Step 6: Review - Check The Result **MANDATORY**
 
 1. Update ticket status to `In Review`
-2. Run code checks (test, lint, typecheck, build)
+2. Run build and code checks (test, lint, typecheck, build)
 3. On failure, assess severity:
    - Test/lint fixes only → fix and re-run
    - Reveals plan flaw → trigger Failure Protocol
@@ -132,7 +133,7 @@ This returns proposals across categories. But don't blindly accept — **think d
 
 Check for existing knowledge that overlaps:
 ```bash
-npx superintent search "<key concept from ticket>" --limit 5
+npx superintent search "<key concept from ticket>" --branch main --limit 5
 ```
 
 Present each proposed knowledge entry to the user. For each one:

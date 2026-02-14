@@ -17,7 +17,7 @@ Skip ceremony, preserve knowledge. The lightweight entry point in the superinten
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --limit 5
+npx superintent search "<user's intent keywords>" --branch main --limit 5
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
@@ -26,9 +26,9 @@ npx superintent search "<user's intent keywords>" --limit 5
 
 ### Step 2: Implementation
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad.
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins.
 2. Implement directly — no ticket, no task tracking
-3. Run checks (test, lint, typecheck)
+3. Run build and code checks (test, lint, typecheck)
 4. Fix failures → re-run
 5. Offer to extract knowledge only if the change produced something worth remembering (gotcha, pattern, architectural insight)
 

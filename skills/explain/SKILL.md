@@ -12,7 +12,7 @@ Answer questions about concepts, patterns, architecture, or decisions.
 ### Step 1: Search Knowledge (BLOCKING)
 
 ```bash
-npx superintent search "<intent>" --limit 5
+npx superintent search "<intent>" --branch main --limit 5
 ```
 
 Extract key terms from user's question for query.

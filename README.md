@@ -86,7 +86,7 @@ Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.
 /plugin install superintent
 ```
 
-**2. Install the [CLI](https://www.npmjs.com/package/superintent)**
+**2. Install the [CLI](https://www.npmjs.com/package/superintent) [[repo]](https://github.com/acoderacom/superintent-cli)**
 
 No global install needed — runs via `npx`:
 
@@ -112,4 +112,6 @@ npx superintent@latest
 
 ## License
 
-MIT
+MIT - See [LICENSE](LICENSE) for details.
+
+Inspired by [superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
