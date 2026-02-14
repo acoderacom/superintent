@@ -104,11 +104,11 @@ npx superintent spec create --stdin <<'SPEC'
 
 ## Key Decisions
 
-- decision: {what} | reason: {why}
+- {what} | reason: {why}
 
 ## Risks & Mitigations
 
-- risk: {what} | mitigation: {how}
+- {what} | mitigation: {how}
 SPEC
 ```
 
