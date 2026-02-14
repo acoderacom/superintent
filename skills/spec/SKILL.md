@@ -39,19 +39,19 @@ npx superintent search "<user's intent keywords>" --limit 5
 If critical information is missing, ask before writing.
 
 1. Restate the intent in one clear sentence
-2. `AskUserQuestion`: **one** clarifying question at a time, 2-4 options. Lead with recommended option.
+2. `AskUserQuestion`: up to 2-3 clarifying questions, 2-4 options each. Lead with recommended option.
 3. Focus on:
    - **Scope boundaries** — what's in, what's out
-   - **Key decisions** — choices that affect the work areas
-   - **Constraints** — dependencies, existing systems
+   - **Key decisions** — choices that affect the feature
+   - **Constraints** — dependencies, existing systems, rules that can't be broken
 
 Don't over-ask. Capture the big picture — details get resolved per-ticket.
 
 ### Step 3: Explore — Gather context from codebase
 
 1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
-2. **Identify context** — modules, services, boundaries involved
-3. **Surface constraints** — what exists, what to reuse, what to avoid
+2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**.
+3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**.
 
 Present findings conversationally as you go.
 
@@ -78,6 +78,14 @@ npx superintent spec create --stdin <<'SPEC'
 
 {Concise overview (2-3 paragraphs). Core value proposition. Goal statement.}
 
+## Background
+
+{Current state — how things work today. What problem triggered this. Why now. Context anyone needs before reasoning about this feature.}
+
+## User Stories
+
+{As a [role], I want [capability], so that [outcome]. 3-6 stories covering primary actors and key workflows.}
+
 ## Scope
 
 **In Scope:**
@@ -90,21 +98,13 @@ npx superintent spec create --stdin <<'SPEC'
 * Item 1
 * Item 2
 
+## Constraints
+
+{Technical and business rules the feature must operate within. APIs to integrate, patterns to follow, performance requirements, backward compatibility, platform limitations.}
+
 ## Key Decisions
 
 - decision: {what} | reason: {why}
-
-## Work Areas
-
-1. {Major chunk of work — name and one-line description}
-2. {Next chunk}
-3. {Next chunk}
-
-Order: {natural sequence and parallelism, e.g. "1 first, then 2 and 3 in parallel"}
-
-## Success Criteria
-
-- {What "done" looks like for the whole feature}
 
 ## Risks & Mitigations
 
@@ -112,7 +112,7 @@ Order: {natural sequence and parallelism, e.g. "1 first, then 2 and 3 in paralle
 SPEC
 ```
 
-**Required sections:** Summary, Scope, Work Areas, Success Criteria.
+**Required sections:** Summary, Background, User Stories, Scope, Constraints.
 **Include if relevant:** Key Decisions, Risks & Mitigations.
 **Leave to `/ticket`:** Type, Change Class, Dependencies, detailed intent, task breakdowns.
 
