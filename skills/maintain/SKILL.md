@@ -49,11 +49,11 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
 
 ```markdown
 ### Architecture
-- **Project Overview** — Turso-backed CLI plugin for tickets, knowledge, and specs (`KNOWLEDGE-20260210-115927`)
-- **Source Code Architecture** — Modular TypeScript: commands/, db/, embed/, ui/, utils/ (`KNOWLEDGE-20260210-115938`)
+- **Project Overview** — Turso-backed CLI plugin for tickets, knowledge, and specs (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
+- **Source Code Architecture** — Modular TypeScript: commands/, db/, embed/, ui/, utils/ (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
 
 ### Key Facts
-- **CLI Commands** — 8 commands: init, status, ticket, knowledge, search, extract, spec, ui (`KNOWLEDGE-20260210-120039`)
+- **CLI Commands** — 8 commands: init, status, ticket, knowledge, search, extract, spec, ui (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
 
 ### Patterns
 - ...
