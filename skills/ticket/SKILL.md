@@ -37,7 +37,7 @@ Stop when the intent is clear. If simple requests suggest `/task`.
 1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins.
 2. **Identify context** — files, patterns, dependencies involved
 3. **Surface constraints** — what to use/avoid (only if non-obvious from knowledge base)
-4. **Assess change class**:
+4. **Assess change class** - capture both class + reason:
    - **A**: New isolated code, low risk
    - **B**: Touches multiple areas, moderate risk
    - **C**: Architectural/breaking, high risk
