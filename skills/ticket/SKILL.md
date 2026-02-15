@@ -83,15 +83,15 @@ npx superintent ticket create --stdin <<'TICKET'
 **Trade-offs:**
 - considered: alternative | rejected: why not
 
+**Rollback:**
+- Reversibility: full|partial|none
+- Step to undo
+
 **Irreversible Actions:**
 - action description
 
 **Edge Cases:**
 - scenario description
-
-**Rollback:**
-- Reversibility: full|partial|none
-- Step to undo
 TICKET
 ```
 
