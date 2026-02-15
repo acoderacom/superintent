@@ -75,6 +75,10 @@ Every piece of extracted knowledge is typed:
 
 Each entry carries a confidence score that grows with usage and decays with staleness.
 
+## Superintent CLI
+
+The data layer lives in the **[CLI](https://github.com/acoderacom/superintent-cli)** - tickets, knowledge, specs, and semantic search.
+
 ## Installation
 
 Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.js 18+.
@@ -86,7 +90,7 @@ Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.
 /plugin install superintent
 ```
 
-**2. Install the [CLI](https://www.npmjs.com/package/superintent) [[repo]](https://github.com/acoderacom/superintent-cli)**
+**2. Install the [CLI](https://www.npmjs.com/package/superintent)**
 
 No global install needed — runs via `npx`:
 
