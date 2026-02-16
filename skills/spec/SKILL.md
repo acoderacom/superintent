@@ -27,7 +27,7 @@ Write a comprehensive spec and save it. **No tickets, no execution.** Tickets ar
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --branch main --limit 5
+npx superintent search "<user's intent keywords>" --branch main --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
@@ -97,5 +97,6 @@ Only include fields that changed. Repeat preview until approved.
 ### Step 6: Next steps
 
 `AskUserQuestion`: "Ready to create tickets from this spec, or keep it for later?"
-   - **Create tickets** → invoke the `/ticket` skill using `Skill` tool with `args: "<spec-id>"`
-   - **Keep for later** → confirm saved, done
+
+- **Create tickets** → invoke the `/ticket` skill using `Skill` tool with `args: "<spec-id>"`
+- **Keep for later** → confirm saved, done

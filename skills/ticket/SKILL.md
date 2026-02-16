@@ -15,7 +15,7 @@ The key insight: **past knowledge makes future tickets smarter**.
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --branch main --limit 5
+npx superintent search "<user's intent keywords>" --branch main --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
@@ -85,7 +85,8 @@ Only include fields that changed. Repeat preview until approved.
 **Both classes:**
 
 `AskUserQuestion`: "Want to start execution now, or keep it in backlog?"
-   - If start → ### Step 6: Implementation
+
+- If start → ### Step 6: Implementation
 
 ### Step 6: Implementation
 
@@ -108,6 +109,7 @@ Only include fields that changed. Repeat preview until approved.
 ### Step 8: Extract - Knowledge Compound
 
 Run the automatic extraction:
+
 ```bash
 npx superintent extract <ticket-id>
 ```
@@ -120,8 +122,9 @@ This returns proposals across categories. But don't blindly accept — **think d
 4. **Does this reinforce or contradict existing knowledge?**
 
 Check for existing knowledge that overlaps:
+
 ```bash
-npx superintent search "<key concept from ticket>" --branch main --limit 5
+npx superintent search "<key concept from ticket>" --branch main --limit 3
 ```
 
 Present each proposed knowledge entry to the user. For each one:
@@ -161,6 +164,7 @@ Not everything deserves a knowledge entry. Extract when:
 - **Validated** — actually tested/proven, not theoretical
 
 Skip when:
+
 - Generic best practice Claude already knows
 - Highly specific to one ticket with no future relevance
 - Already captured in existing knowledge
