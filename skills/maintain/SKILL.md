@@ -20,7 +20,7 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 ### Step 1: Inventory — Gather both sides
 
 ```bash
-npx superintent knowledge list --status active --limit 50
+npx superintent knowledge list --status active --branch main --limit 50
 ```
 
 Read the project's `CLAUDE.md` file.

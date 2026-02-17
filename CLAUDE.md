@@ -3,7 +3,7 @@
 - Namespace: superintent
 - Database: Local SQLite (`.superintent/local.db`)
 
-Before exploring the codebase, always run `npx superintent search` first — stored knowledge is the primary source of truth. Specs describe features only; never include tickets inside a spec. All stdin flags (--stdin, --content-stdin, --plan-stdin) expect input in markdown format.
+Before exploring the codebase, always run `npx superintent search --branch main` first — stored knowledge is the primary source of truth. Specs describe features only; never include tickets inside a spec. All `--stdin` flags expect JSON input.
 
 <!-- superintent:knowledge:start -->
 
@@ -13,17 +13,18 @@ Before exploring the codebase, always run `npx superintent search` first — sto
 
 | Command                   | Description            |
 | ------------------------- | ---------------------- |
-| `npx superintent init`   | Create database tables |
+| `npx superintent init [--url <url>]`   | Create database tables |
 | `npx superintent status` | Check Turso connection |
-| `npx superintent ui`     | Start web UI           |
+| `npx superintent ui [-p <port>] [-o]`     | Start web UI (default port 3456, -o to auto-open browser)           |
 
 ### Ticket Operations
 
 | Action | Command |
 | --- | --- |
-| Create | `npx superintent ticket create --stdin` (heredoc) |
+| Create | `npx superintent ticket create --stdin` (JSON: `{"title","intent","type","context","constraints","assumptions","changeClass","plan",[...]}`) |
 | Get | `npx superintent ticket get <id>` |
-| Update | `npx superintent ticket update <id> [--status] [--plan-stdin] [--complete-all] [--complete-task <indices>] [--complete-dod <indices>] [--comment <text>] [--context <context>] [--spec <spec-id>]` |
+| Preview | `npx superintent ticket preview <id>` |
+| Update | `npx superintent ticket update <id> [--stdin] [--status] [--complete-all] [--complete-task <indices>] [--complete-dod <indices>] [--comment <text>] [--author <name>] [--context <context>] [--spec <spec-id>]` |
 | List | `npx superintent ticket list [--status <status>] [--limit N]` |
 | Delete | `npx superintent ticket delete <id>` |
 
@@ -31,22 +32,25 @@ Before exploring the codebase, always run `npx superintent search` first — sto
 
 | Action | Command |
 | --- | --- |
-| Create | `npx superintent spec create --stdin` (heredoc) |
+| Create | `npx superintent spec create --stdin` (JSON: `{"title","content","author"}`) |
 | Get | `npx superintent spec get <id>` |
+| Preview | `npx superintent spec preview <id>` |
 | List | `npx superintent spec list [--limit N]` |
-| Update | `npx superintent spec update <id> [--title] [--content-stdin]` |
+| Update | `npx superintent spec update <id> [--stdin] [--title] [--comment <text>] [--author <name>]` |
 | Delete | `npx superintent spec delete <id>` |
 
 ### Knowledge Operations
 
 | Action | Command |
 | --- | --- |
-| Search | `npx superintent search "<query>" [--limit N] [--namespace] [--category] [--ticket-type] [--tags] [--min-score]` |
-| Extract | `npx superintent extract <ticket-id>` |
-| Create | `npx superintent knowledge create --stdin` (heredoc) |
+| Search | `npx superintent search "<query>" [--limit N] [--namespace] [--category] [--ticket-type] [--tags] [--author] [--branch] [--min-score]` |
+| Extract | `npx superintent extract <ticket-id> [--namespace <namespace>]` |
+| Create | `npx superintent knowledge create --stdin` (JSON: `{"title","namespace","content","category","source","confidence","scope","tags",[...]}`) |
 | Get | `npx superintent knowledge get <id>` |
-| List | `npx superintent knowledge list [--namespace] [--category] [--scope] [--source] [--status active\|inactive\|all] [--limit N]` |
-| Update | `npx superintent knowledge update <id> [--title] [--content-stdin] [--namespace] [--category] [--tags] [--scope] [--origin] [--confidence]` |
+| Preview | `npx superintent knowledge preview <id>` |
+| List | `npx superintent knowledge list [--namespace] [--category] [--scope] [--source] [--author] [--branch] [--status active\|inactive\|all] [--limit N]` |
+| Update | `npx superintent knowledge update <id> [--stdin] [--title] [--namespace] [--category] [--tags] [--scope] [--origin] [--confidence] [--comment <text>] [--author <name>]` |
 | Activate | `npx superintent knowledge activate <id>` |
 | Deactivate | `npx superintent knowledge deactivate <id>` |
+| Promote | `npx superintent knowledge promote <id>` |
 | Recalculate | `npx superintent knowledge recalculate [--dry-run]` |
