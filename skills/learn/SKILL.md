@@ -49,33 +49,4 @@ KNOWLEDGE
 
 ## Reference
 
-### Confidence Defaults
-
-| Category              | Default |
-| --------------------- | ------- |
-| Truth                 | 0.9     |
-| Architecture / Gotcha | 0.85    |
-| Pattern               | 0.8     |
-| Principle             | 0.75    |
-
-### Decision Scopes
-
-**new-only** — Apply only to new code
-
-**backward-compatible** — Apply without breaking existing behavior
-
-**global** — Apply everywhere
-
-**legacy-frozen** — Document only, don't change legacy code
-
-### Content Formats
-
-**Architecture:** `Component` / `Responsibility` / `Interfaces`
-
-**Pattern:** `Why` / `When` / `Pattern`
-
-**Truth:** `Fact` / `Verified`
-
-**Principle:** `Rule` / `Why` / `Applies`
-
-**Gotcha:** `Attempted` / `Failed Because` / `Instead` / `Symptoms`
+See [reference.md](../../references/reference.md) for Confidence Defaults, Decision Scopes, and Content Formats.
