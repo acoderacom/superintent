@@ -1,5 +1,6 @@
 ---
 name: explain
+model: sonnet
 description: Explain concepts, patterns, or decisions by searching knowledge FIRST. Triggers on "explain...", "why do we...", "how does X work", "what is our approach to...", "what does X do". Search knowledge before any codebase exploration. If knowledge found, answer from knowledge only.
 ---
 

@@ -8,7 +8,7 @@ disable-model-invocation: true
 ## Step 1: Check Prerequisites
 
 ```bash
-npx superintent --version
+npx superintent@latest --version
 ```
 
 If fails → guide user to [install.md](../references/install.md), then return here.
@@ -22,9 +22,7 @@ If fails → guide user to [install.md](../references/install.md), then return h
 
 ## Step 3: Create Config
 
-```bash
-mkdir -p .superintent && echo -e ".superintent/.env\n.superintent/*.db" >> .gitignore
-```
+Ensure `.gitignore` covers `.superintent/.env` and `.superintent/*.db`. Read `.gitignore` (create if missing), then add only lines that aren't already present. Do not append duplicates.
 
 ### If Local:
 

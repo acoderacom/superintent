@@ -1,5 +1,6 @@
 ---
 name: learn
+model: sonnet
 description: Capture knowledge from codebase exploration. Triggers on "learn how...", "document how...", "remember how...", "save knowledge about...".
 ---
 

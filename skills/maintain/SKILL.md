@@ -1,5 +1,6 @@
 ---
 name: maintain
+model: sonnet
 description: Maintain CLAUDE.md from knowledge database. Triggers on "maintain", "update claude.md", "sync knowledge", "refresh claude.md".
 ---
 
@@ -20,7 +21,7 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 ### Step 1: Inventory — Gather both sides
 
 ```bash
-npx superintent knowledge list --status active --branch-auto --limit 50
+npx superintent knowledge list --status active --branch-auto --limit 100
 ```
 
 Read the project's `CLAUDE.md` file.
