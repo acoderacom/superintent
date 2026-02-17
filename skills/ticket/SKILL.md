@@ -15,7 +15,7 @@ The key insight: **past knowledge makes future tickets smarter**.
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --branch-auto --limit 3
+npx superintent knowledge search "<user's intent keywords>" --branch-auto --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
@@ -111,7 +111,7 @@ Only include fields that changed. Repeat preview until approved.
 Run the automatic extraction:
 
 ```bash
-npx superintent extract <ticket-id>
+npx superintent knowledge extract <ticket-id>
 ```
 
 This returns proposals across categories. But don't blindly accept — **think deeper**:
@@ -124,7 +124,7 @@ This returns proposals across categories. But don't blindly accept — **think d
 Check for existing knowledge that overlaps:
 
 ```bash
-npx superintent search "<key concept from ticket>" --branch-auto --limit 3
+npx superintent knowledge search "<key concept from ticket>" --branch-auto --limit 3
 ```
 
 Present each proposed knowledge entry to the user. For each one:

@@ -27,7 +27,7 @@ Write a comprehensive spec and save it. **No tickets, no execution.** Tickets ar
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --branch-auto --limit 3
+npx superintent knowledge search "<user's intent keywords>" --branch-auto --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.

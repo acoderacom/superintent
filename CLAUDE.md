@@ -3,6 +3,8 @@
 - Namespace: superintent
 - Database: Local SQLite (`.superintent/local.db`)
 
+Always search knowledge before exploring the codebase — it is the primary source of truth. All `--stdin` flags expect JSON input.
+
 <!-- superintent:knowledge:start -->
 
 <!-- superintent:knowledge:end -->
@@ -41,8 +43,8 @@
 
 | Action      | Command                                                                                                                                                                  |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Search      | `npx superintent search "<query>" [--limit N] [--namespace] [--category] [--ticket-type] [--tags] [--author] [--branch] [--branch-auto] [--min-score]`                   |
-| Extract     | `npx superintent extract <ticket-id> [--namespace <namespace>]`                                                                                                          |
+| Search      | `npx superintent knowledge search "<query>" [--limit N] [--namespace] [--category] [--ticket-type] [--tags] [--author] [--branch] [--branch-auto] [--min-score]`                   |
+| Extract     | `npx superintent knowledge extract <ticket-id> [--namespace <namespace>]`                                                                                                          |
 | Create      | `npx superintent knowledge create --stdin` (JSON: `{"title","namespace","content","category","source","confidence","scope","tags",[...]}`)                               |
 | Get         | `npx superintent knowledge get <id>`                                                                                                                                     |
 | Preview     | `npx superintent knowledge preview <id>`                                                                                                                                 |
