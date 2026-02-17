@@ -17,7 +17,7 @@ Skip ceremony, preserve knowledge. The lightweight entry point in the superinten
 Before asking questions, search the knowledge base — the source of truth.
 
 ```bash
-npx superintent search "<user's intent keywords>" --branch main --limit 3
+npx superintent search "<user's intent keywords>" --branch-auto --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.

@@ -14,7 +14,7 @@ Capture codebase understanding as searchable knowledge. **What you learn once, C
 Before exploring, check if knowledge already exists on this topic.
 
 ```bash
-npx superintent search "<topic keywords>" --branch main --limit 3
+npx superintent search "<topic keywords>" --branch-auto --limit 3
 ```
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.

@@ -20,7 +20,7 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 ### Step 1: Inventory — Gather both sides
 
 ```bash
-npx superintent knowledge list --status active --branch main --limit 50
+npx superintent knowledge list --status active --branch-auto --limit 50
 ```
 
 Read the project's `CLAUDE.md` file.
@@ -49,20 +49,25 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
 
 ```markdown
 ### Architecture
+
 - **Project Overview** — Turso-backed CLI plugin for tickets, knowledge, and specs (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
 - **Source Code Architecture** — Modular TypeScript: commands/, db/, embed/, ui/, utils/ (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
 
 ### Key Facts
+
 - **CLI Commands** — 8 commands: init, status, ticket, knowledge, search, extract, spec, ui (`KNOWLEDGE-YYYYMMDD-HHMMSSMMM`)
 
 ### Patterns
+
 - ...
 
 ### Gotchas
+
 - ...
 ```
 
 **Rules:**
+
 - One line per entry — no paragraphs
 - Use the knowledge title as the bold label
 - Summary should be the "so what" — what Claude needs to know at a glance
@@ -78,12 +83,14 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
    - Append the markers and distilled content at the end of the file:
 
 ```markdown
-
 <!-- superintent:knowledge:start -->
+
 ### Architecture
+
 - ...
 
 ### Key Facts
+
 - ...
 <!-- superintent:knowledge:end -->
 ```
@@ -106,9 +113,9 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
 
 ### Scoring Criteria
 
-| Factor | Weight | Rule |
-|--------|--------|------|
-| Confidence | 3x | Multiply confidence by 3 (e.g., 0.95 → 2.85) |
-| Usage count | 1x | usage_count as-is (capped at 10) |
-| Category | bonus | truth: +2, architecture: +1.5, principle: +1, pattern: +0.5, gotcha: +0.5 |
-| Recency | bonus | Updated in last 7 days: +1, last 30 days: +0.5 |
+| Factor      | Weight | Rule                                                                      |
+| ----------- | ------ | ------------------------------------------------------------------------- |
+| Confidence  | 3x     | Multiply confidence by 3 (e.g., 0.95 → 2.85)                              |
+| Usage count | 1x     | usage_count as-is (capped at 10)                                          |
+| Category    | bonus  | truth: +2, architecture: +1.5, principle: +1, pattern: +0.5, gotcha: +0.5 |
+| Recency     | bonus  | Updated in last 7 days: +1, last 30 days: +0.5                            |
