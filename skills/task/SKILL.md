@@ -12,7 +12,7 @@ Skip ceremony, preserve knowledge. The lightweight entry point in the superinten
 
 ## Workflow
 
-### Step 1: Recall — Search What We Already Know
+### Step 1: Recall — Search what we already know
 
 Before asking questions, search the knowledge base — the source of truth.
 
@@ -24,7 +24,7 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 2.
 
-### Step 2: Implementation
+### Step 2: Implementation - The work
 
 1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins.
 2. Implement directly — no ticket, no task tracking

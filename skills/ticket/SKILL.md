@@ -86,9 +86,9 @@ Only include fields that changed. Repeat preview until approved.
 
 `AskUserQuestion`: "Want to start execution now, or keep it in backlog?"
 
-- If start → ### Step 6: Implementation
+- If start → ### Step 6
 
-### Step 6: Implementation
+### Step 6: Implementation - The Work
 
 1. Update ticket status to `In Progress`
 2. For each task (respect dependency order):
