@@ -39,7 +39,7 @@ Synthesize exploration findings into a knowledge entry. Highlight what's new vs 
 
 ```bash
 npx superintent knowledge create --stdin <<'KNOWLEDGE'
-{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Use Content Formats from Reference}", "category": "{architecture|pattern|truth|principle|gotcha}", "source": "discovery", "confidence": {see Confidence Defaults}, "scope": "{new-only|global|backward-compatible|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
+{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
 KNOWLEDGE
 ```
 
@@ -49,4 +49,35 @@ KNOWLEDGE
 
 ## Reference
 
-See [reference.md](../../references/reference.md) for Confidence Defaults, Decision Scopes, and Content Formats.
+### Confidence Defaults
+
+| Category              | Default |
+| --------------------- | ------- |
+| Truth                 | 0.9     |
+| Architecture / Gotcha | 0.85    |
+| Pattern               | 0.8     |
+| Principle             | 0.75    |
+
+### Decision Scopes
+
+**new-only** — Apply only to new code
+
+**backward-compatible** — Apply without breaking existing behavior
+
+**global** — Apply everywhere
+
+**legacy-frozen** — Document only, don't change legacy code
+
+Decision Scopes rule: Default to `new-only` for gotchas and patterns. Default to `global` for architecture and truths. Only use `global` if the knowledge applies to ALL code unconditionally, not just code in a specific area.
+
+### Knowledge Content Formats
+
+**Architecture:** `Component` / `Responsibility` / `Interfaces`
+
+**Pattern:** `Why` / `When` / `Pattern`
+
+**Truth:** `Fact` / `Verified`
+
+**Principle:** `Rule` / `Why` / `Applies`
+
+**Gotcha:** `Attempted` / `Failed Because` / `Instead` / `Symptoms`

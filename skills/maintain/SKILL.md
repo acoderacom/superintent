@@ -112,4 +112,11 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
 
 ## Reference
 
-See [reference.md](../../references/reference.md) for Scoring Criteria.
+### Scoring Criteria
+
+| Factor      | Weight | Rule                                                                      |
+| ----------- | ------ | ------------------------------------------------------------------------- |
+| Confidence  | 3x     | Multiply confidence by 3 (e.g., 0.95 → 2.85)                              |
+| Usage count | 1x     | usage_count as-is (capped at 10)                                          |
+| Category    | bonus  | truth: +2, architecture: +1.5, principle: +1, pattern: +0.5, gotcha: +0.5 |
+| Recency     | bonus  | Updated in last 7 days: +1, last 30 days: +0.5                            |

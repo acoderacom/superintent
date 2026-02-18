@@ -129,7 +129,7 @@ npx superintent knowledge search "<key concept from ticket>" --branch-auto --lim
 
 Present each proposed knowledge entry to the user. For each one:
 
-1. Show the category, title, content, confidence, and scope
+1. Show the category, title, content, confidence, and decision scopes
 2. Ask: **keep, edit, or skip?**
 3. If existing knowledge overlaps — ask: **merge, update confidence, or skip as duplicate?**
 
@@ -142,7 +142,7 @@ For each approved entry
 
 ```bash
 npx superintent knowledge create --stdin <<'KNOWLEDGE'
-{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Content using category template from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
+{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
 KNOWLEDGE
 ```
 
@@ -215,4 +215,35 @@ Extended: `Blocked` (waiting on external), `Paused` (stopped intentionally), `Ab
 | B     | Cross-module, APIs, deps                         | Propose  |
 | C     | Schema, auth, payments                           | Approval |
 
-See [reference.md](../../references/reference.md) for Confidence Defaults, Decision Scopes, and Content Formats.
+### Confidence Defaults
+
+| Category              | Default |
+| --------------------- | ------- |
+| Truth                 | 0.9     |
+| Architecture / Gotcha | 0.85    |
+| Pattern               | 0.8     |
+| Principle             | 0.75    |
+
+### Decision Scopes
+
+**new-only** — Apply only to new code
+
+**backward-compatible** — Apply without breaking existing behavior
+
+**global** — Apply everywhere
+
+**legacy-frozen** — Document only, don't change legacy code
+
+Decision Scopes rule: Default to `new-only` for gotchas and patterns. Default to `global` for architecture and truths. Only use `global` if the knowledge applies to ALL code unconditionally, not just code in a specific area.
+
+### Knowledge Content Formats
+
+**Architecture:** `Component` / `Responsibility` / `Interfaces`
+
+**Pattern:** `Why` / `When` / `Pattern`
+
+**Truth:** `Fact` / `Verified`
+
+**Principle:** `Rule` / `Why` / `Applies`
+
+**Gotcha:** `Attempted` / `Failed Because` / `Instead` / `Symptoms`
