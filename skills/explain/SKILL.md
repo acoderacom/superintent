@@ -32,4 +32,4 @@ Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code
 
 **No knowledge found (all scores <0.45):**
 
-Explore codebase to answer. After answering, suggest `/learn` if the topic is worth capturing.
+ **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel. After answering, suggest `/learn` if the topic is worth capturing.

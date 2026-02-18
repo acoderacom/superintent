@@ -39,7 +39,7 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 If critical information is missing, ask before writing.
 
 1. Restate the intent in one clear sentence
-2. `AskUserQuestion`: up to 2-3 clarifying questions, 2-4 options each. Lead with recommended option.
+2. `AskUserQuestion`: up to 5 clarifying questions, 2-4 options each. Lead with recommended option.
 3. Focus on:
    - **Scope boundaries** — what's in, what's out
    - **Key decisions** — choices that affect the feature
@@ -49,9 +49,9 @@ Don't over-ask. Capture the big picture — details get resolved per-ticket.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, if knowledge found → start from patterns/files, else broad. **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel
-2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**.
-3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**.
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins
+2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**
+3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**
 
 Present findings conversationally as you go.
 

@@ -34,7 +34,7 @@ Score each active knowledge entry. **Higher score = more important.**
 
 1. Apply scoring criteria (sum all weights)
 2. Exclude: confidence < 0.5, entries too implementation-specific (prefer general abstractions)
-3. **Sort** by total score descending. Take the top entries that provide useful coverage without bloating CLAUDE.md.
+3. **Sort** by total score descending. Take the top entries that provide useful coverage without bloating CLAUDE.md
 
 ### Step 3: Distill — Write one-liner summaries
 
@@ -98,11 +98,11 @@ For each selected knowledge entry, write a **one-liner summary** — the most im
 
 3. **If no changes needed** (distilled content matches what's already between markers):
    - Report "CLAUDE.md is up to date — no changes needed."
-   - Do not write the file. Done.
+   - Do not write the file. Done
 4. **Before writing**, show the user a summary of changes:
    - How many entries added/updated/removed
    - Which knowledge IDs are included
-5. `AskUserQuestion`: "Apply these changes to CLAUDE.md?" → Apply | Revise | Skip
+5. `AskUserQuestion`: "Apply these changes to CLAUDE.md?" → Apply | Revise | Cancel
 6. **Report** after writing:
    - Number of knowledge entries distilled
    - Categories included
