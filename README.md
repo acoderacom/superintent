@@ -32,23 +32,15 @@ Intent ──► Work ──► Review ──► Compound
 
 **Review** — Human decides. Approve, adjust, or reject. This is what makes the knowledge trustworthy.
 
-**Compound** — Knowledge is extracted: what was built, how, why, what failed, what was rejected. Stored with structure, confidence scores, citations, and semantic search. Citations anchor knowledge to specific code lines — when code changes, stale citations surface outdated knowledge before it misleads the next cycle.
+**Compound** — Knowledge is extracted: what was built, how, why, what failed, what was rejected. Stored with structure, confidence scores, citations, and semantic search.
 
 ## Who Benefits
 
 **The AI** searches knowledge before writing code. It avoids past mistakes, follows established patterns, and makes informed decisions instead of generic ones. Every cycle makes it more useful.
 
-**The human** gets a living project knowledge that writes itself. Architecture decisions with rationale. Gotchas with symptoms. Patterns with context. Not a documentation effort — a byproduct of the work you were already doing.
+**The human** gets a living project knowledge base that writes itself. Architecture decisions with rationale. Gotchas with symptoms. Patterns with context. Not a documentation effort — a byproduct of the work you were already doing.
 
 **New team members** onboard from the knowledge base. "Why did we do it this way?" has an answer before they ask.
-
-## Why the "Ceremony" Matters
-
-When AI just executes without planning, you get code fast. You also get code with no documented rationale that will confuse everyone three weeks from now.
-
-The ticket workflow forces what developers skip when left to their instincts: *stop and think before you build.* Intent. Constraints. Change class. Edge cases. Rollback plan. That's not overhead — that's engineering discipline. The fact that AI is doing the building makes it more important, not less.
-
-The first ticket you create already delivers value — not because the knowledge base returned anything, but because you made a better plan than you would have without it. The compounding comes later. The discipline is immediate.
 
 ## Commands
 
@@ -61,7 +53,19 @@ The first ticket you create already delivers value — not because the knowledge
 | `/explain` | Answer questions from stored knowledge first |
 | `/maintain` | Sync the knowledge summary in `CLAUDE.md` |
 
-## Knowledge Categories
+## Change Classes
+
+Not all changes carry the same risk. Superintent classifies work to match the review effort to the blast radius:
+
+| Class | Scope | Risk | Behavior |
+| --- | --- | --- | --- |
+| **A** | Single file, tests, docs | Low | Auto-execute |
+| **B** | Cross-module, APIs, dependencies | Moderate | Propose, then execute |
+| **C** | Schema, auth, payments, infra | High | Full plan, approval required |
+
+## Knowledge System
+
+### Categories
 
 Every piece of extracted knowledge is typed:
 
@@ -73,11 +77,35 @@ Every piece of extracted knowledge is typed:
 | **principle** | Rules the team follows and why |
 | **gotcha** | Things that failed and how to avoid them |
 
-Each entry carries a confidence score that grows with usage and decays with staleness. Entries can include **citations** — `file:line` references with content hashes that detect when the code a knowledge entry describes has drifted. Skills validate citations before trusting knowledge, catching stale information instantly.
+### Confidence Scoring
+
+Each knowledge entry carries a confidence score (0–1) that reflects how reliable it is. Scores start based on category — truths at 0.9, patterns at 0.8, principles at 0.75 — then grow with usage and decay with staleness.
+
+### Citations and Stale Detection
+
+Knowledge entries include **citations** — `file:line` references with content hashes that anchor knowledge to specific code. When the code at a cited location changes, the hash no longer matches, and the citation is flagged as stale.
+
+Skills validate citations before trusting knowledge. Stale citations trigger the **Knowledge Conflict Protocol**: confidence is automatically lowered, the user is informed, and they choose whether to update the knowledge, deactivate it, or ignore the drift.
+
+This means knowledge doesn't silently rot. The system catches outdated information before it misleads the next cycle.
+
+## Why the "Ceremony" Matters
+
+When AI just executes without planning, you get code fast. You also get code with no documented rationale that will confuse everyone three weeks from now.
+
+The ticket workflow forces what developers skip when left to their instincts: *stop and think before you build.* Intent. Constraints. Change class. Edge cases. Rollback plan. That's not overhead — that's engineering discipline. The fact that AI is doing the building makes it more important, not less.
+
+The first ticket you create already delivers value — not because the knowledge base returned anything, but because you made a better plan than you would have without it. The compounding comes later. The discipline is immediate.
 
 ## Superintent CLI
 
-The data layer lives in the **[CLI](https://github.com/acoderacom/superintent-cli)** - tickets, knowledge, specs, and semantic search.
+The data layer lives in the **[CLI](https://github.com/acoderacom/superintent-cli)** — tickets, knowledge, specs, and semantic search. No global install needed — runs via `npx`:
+
+```
+npx superintent@latest
+```
+
+Supports both **local** (SQLite in `.superintent/local.db`) and **cloud** (Turso) storage. Local mode requires no account — just `npx superintent init` and go.
 
 ## Installation
 
@@ -90,19 +118,13 @@ Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Node.
 /plugin install superintent
 ```
 
-**2. Install the [CLI](https://www.npmjs.com/package/superintent)**
-
-No global install needed — runs via `npx`:
-
-```
-npx superintent@latest
-```
-
-**3. Initialize your project**
+**2. Initialize your project**
 
 ```
 /superintent:setup
 ```
+
+The setup command walks you through database configuration (local or cloud), writes your `CLAUDE.md`, and verifies the connection.
 
 ## Principles
 
@@ -116,6 +138,6 @@ npx superintent@latest
 
 ## License
 
-MIT - See [LICENSE](LICENSE) for details.
+MIT — See [LICENSE](LICENSE) for details.
 
 Inspired by [superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
