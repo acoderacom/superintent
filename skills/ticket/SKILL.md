@@ -20,7 +20,17 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 3 instead of searching blind.
+**Citation validation:** If results include `citations`, validate them immediately:
+
+```bash
+npx superintent knowledge validate <id>
+```
+
+- **All valid** → trust the knowledge, use citations as navigation for Step 3
+- **Some stale** → knowledge may be partially outdated, verify stale paths in Step 3
+- **All stale** → knowledge is untrustworthy, trigger **Knowledge Conflict Protocol** before proceeding
+
+This is the **fast path** — hash checks catch stale knowledge instantly without expensive codebase exploration.
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
 
@@ -183,11 +193,11 @@ Skip when:
 
 ### Knowledge Conflict Protocol
 
-When exploration reveals knowledge that contradicts current codebase state:
+Triggered when **citation validation** (Step 1) finds all-stale citations, or when **exploration** (Step 3) reveals knowledge contradicts current codebase state:
 
 1. **Use current state** for the task — never trust stale knowledge over code
 2. **Auto-lower confidence** immediately: `npx superintent knowledge update <id> --confidence <current - 0.15>`
-3. **Tell the user** what conflicted and why current state differs
+3. **Tell the user** what conflicted — include citation validation results if available (e.g., "3/3 citations stale — the code this knowledge references has changed")
 4. `AskUserQuestion`: "Knowledge `<id>` conflicts with current code. What should we do?"
    - **Update** → update content to match current state via `npx superintent knowledge update <id> --stdin`
    - **Deactivate** → `npx superintent knowledge deactivate <id>`

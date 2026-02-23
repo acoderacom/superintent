@@ -32,7 +32,15 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 3 instead of searching blind.
+**Citation validation:** If results include `citations`, validate them immediately:
+
+```bash
+npx superintent knowledge validate <id>
+```
+
+- **All valid** → trust the knowledge, use citations as navigation for Step 3
+- **Some stale** → knowledge may be partially outdated, verify stale paths in Step 3
+- **All stale** → knowledge is untrustworthy, trigger **Knowledge Conflict Protocol** before proceeding
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
 
@@ -57,7 +65,7 @@ Don't over-ask. Capture the big picture — details get resolved per-ticket.
 
 Present findings conversationally as you go.
 
-**Knowledge Conflict Protocol:** If knowledge contradicts current code: (1) auto-lower confidence `npx superintent knowledge update <id> --confidence <current - 0.15>`, (2) tell the user, (3) ask: Update content | Deactivate | Ignore.
+**Knowledge Conflict Protocol:** Triggered when citation validation (Step 1) finds all-stale citations, or when exploration reveals knowledge contradicts current code: (1) auto-lower confidence `npx superintent knowledge update <id> --confidence <current - 0.15>`, (2) tell the user — include citation validation results if available, (3) ask: Update content | Deactivate | Ignore.
 
 ### Step 4: Compose & Save — Create the spec
 

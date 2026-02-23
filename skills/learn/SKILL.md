@@ -20,7 +20,15 @@ npx superintent knowledge search "<topic keywords>" --branch-auto --limit 3
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 2 instead of searching blind.
+**Citation validation:** If results include `citations`, validate them immediately:
+
+```bash
+npx superintent knowledge validate <id>
+```
+
+- **All valid** → trust the knowledge, use citations as navigation for Step 2
+- **Some stale** → knowledge may be partially outdated, verify stale paths in Step 2
+- **All stale** → knowledge is untrustworthy, auto-lower confidence: `npx superintent knowledge update <id> --confidence <current - 0.15>` and tell the user
 
 If strong matches exist → present them. `AskUserQuestion`: "Existing knowledge found. Still explore, or is this sufficient?" → Explore deeper | Sufficient
 
