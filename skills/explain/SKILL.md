@@ -20,11 +20,13 @@ Extract key terms from user's question for query.
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citation check:** If results include `citations`, validate them before answering:
+**MANDATORY — Validate every result that has citations.** Do NOT skip this. Run validate for each knowledge entry returned:
 
 ```bash
 npx superintent knowledge validate <id>
 ```
+
+Run all validate calls in parallel (one per result). Then check each status:
 
 - **valid** → trust the knowledge, use citations to point user to code locations
 - **changed** → source file has evolved — note this in your answer so the user knows code may have shifted
