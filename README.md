@@ -32,7 +32,7 @@ Intent ──► Work ──► Review ──► Compound
 
 **Review** — Human decides. Approve, adjust, or reject. This is what makes the knowledge trustworthy.
 
-**Compound** — Knowledge is extracted: what was built, how, why, what failed, what was rejected. Stored with structure, confidence scores, and semantic search. Feeds back into the next intent.
+**Compound** — Knowledge is extracted: what was built, how, why, what failed, what was rejected. Stored with structure, confidence scores, citations, and semantic search. Citations anchor knowledge to specific code lines — when code changes, stale citations surface outdated knowledge before it misleads the next cycle.
 
 ## Who Benefits
 
@@ -73,7 +73,7 @@ Every piece of extracted knowledge is typed:
 | **principle** | Rules the team follows and why |
 | **gotcha** | Things that failed and how to avoid them |
 
-Each entry carries a confidence score that grows with usage and decays with staleness.
+Each entry carries a confidence score that grows with usage and decays with staleness. Entries can include **citations** — `file:line` references with content hashes that detect when the code a knowledge entry describes has drifted. Skills validate citations before trusting knowledge, catching stale information instantly.
 
 ## Superintent CLI
 
