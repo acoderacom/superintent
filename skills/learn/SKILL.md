@@ -20,13 +20,13 @@ npx superintent knowledge search "<topic keywords>" --branch-auto --limit 3
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**MANDATORY — Validate every result that has citations.** Do NOT skip this. Run validate for each knowledge entry returned:
+**Validate every result with citations** — run once per entry, all in parallel:
 
 ```bash
 npx superintent knowledge validate <id>
 ```
 
-Run all validate calls in parallel (one per result). Then check each status:
+Check each status:
 
 - **valid** → file unchanged since knowledge was written, trust fully
 - **changed** → source file has evolved — knowledge is likely still valid, use citations as navigation hints for Step 2

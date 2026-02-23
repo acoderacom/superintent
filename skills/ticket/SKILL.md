@@ -20,13 +20,13 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**MANDATORY — Validate every result that has citations.** Do NOT skip this. Run validate for each knowledge entry returned:
+**Validate every result with citations** — run once per entry, all in parallel:
 
 ```bash
 npx superintent knowledge validate <id>
 ```
 
-Run all validate calls in parallel (one per result). Then check each status:
+Check each status:
 
 - **valid** → file unchanged since knowledge was written, trust fully
 - **changed** → source file has evolved — knowledge is likely still valid, use citations as navigation hints for Step 3
@@ -44,11 +44,11 @@ Citations are provenance links, not validity proofs. `changed` is informational 
 4. Incorporate knowledge from Step 1 into questions — offer informed choices, not blank ones
 
 Be ready to go back and clarify if something doesn't make sense.
-Stop when the intent is clear. **IMPORTANT** If simple requests suggest `/task`.
+Stop when the intent is clear. If simple requests — suggest `/task`.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins for the current task — then trigger **Knowledge Conflict Protocol** (see Reference)
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins — then trigger **Knowledge Conflict Protocol**
 2. **Identify context** — files, patterns, dependencies involved
 3. **Surface constraints** — what to use/avoid (only if non-obvious from knowledge base)
 4. **Assess change class** - capture both class + reason:
@@ -110,7 +110,7 @@ Only include fields that changed. Repeat preview until approved.
    - On failure → Failure Protocol
 3. Use `TaskList` for next task
 
-### Step 7: Review - Check The Result **MANDATORY**
+### Step 7: Review — Check the result (MANDATORY)
 
 1. Update ticket status to `In Review`
 2. Run build and code checks (test, lint, typecheck, build)

@@ -24,6 +24,18 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 npx superintent knowledge list --status active --branch-auto --limit 100
 ```
 
+**Validate every result with citations** — run once per entry, all in parallel:
+
+```bash
+npx superintent knowledge validate <id>
+```
+
+Check each status:
+
+- **valid** → file unchanged since knowledge was written, trust fully
+- **changed** → source file has evolved — knowledge is likely still valid, use with caution during scoring
+- **missing** → source file was deleted — knowledge may be about removed code, flag for deactivation in Step 2
+
 Read the project's `CLAUDE.md` file.
 
 Identify the `<!-- superintent:knowledge:start -->` and `<!-- superintent:knowledge:end -->` markers. If markers don't exist yet, note that — you'll add them in Step 4.
