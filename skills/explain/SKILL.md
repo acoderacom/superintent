@@ -20,6 +20,8 @@ Extract key terms from user's question for query.
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
+**Citations as navigation:** If results include `citations` (file:line references), use those to point the user to exact code locations in your explanation.
+
 ### Step 2: Answer
 
 **Knowledge found (score ≥0.45):**

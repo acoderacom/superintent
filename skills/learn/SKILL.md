@@ -20,13 +20,15 @@ npx superintent knowledge search "<topic keywords>" --branch-auto --limit 3
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
+**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 2 instead of searching blind.
+
 If strong matches exist → present them. `AskUserQuestion`: "Existing knowledge found. Still explore, or is this sufficient?" → Explore deeper | Sufficient
 
 ### Step 2: Explore — Understand the topic
 
 Use Task tool with `subagent_type=Explore` to understand the topic.
 
-**Parallel exploration:** For complex topics, run multiple Explore agents in parallel (one message, multiple Task calls) — e.g., explore architecture + explore patterns + explore usage.
+**Parallel exploration:** For complex topics, run multiple Explore agents in parallel (one message, multiple Task calls) — e.g., explore architecture + explore patterns + explore usage. If knowledge from Step 1 conflicts with current state, current state wins — auto-lower confidence: `npx superintent knowledge update <id> --confidence <current - 0.15>` and mention the conflict to the user.
 
 Present findings conversationally as you go.
 
@@ -39,7 +41,7 @@ Synthesize exploration findings into a knowledge entry. Highlight what's new vs 
 
 ```bash
 npx superintent knowledge create --stdin <<'KNOWLEDGE'
-{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
+{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "discovery", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"], "citations": [{"path": "{file.ts:lineNum}", "contentHash": "{hash from computeContentHash}"}]}
 KNOWLEDGE
 ```
 

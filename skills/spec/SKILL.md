@@ -32,6 +32,8 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
+**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 3 instead of searching blind.
+
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
 
 ### Step 2: Understand — Clarify the intent
@@ -49,11 +51,13 @@ Don't over-ask. Capture the big picture — details get resolved per-ticket.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins for the current task — then trigger **Knowledge Conflict Protocol** (see below)
 2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**
 3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**
 
 Present findings conversationally as you go.
+
+**Knowledge Conflict Protocol:** If knowledge contradicts current code: (1) auto-lower confidence `npx superintent knowledge update <id> --confidence <current - 0.15>`, (2) tell the user, (3) ask: Update content | Deactivate | Ignore.
 
 ### Step 4: Compose & Save — Create the spec
 

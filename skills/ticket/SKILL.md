@@ -20,6 +20,8 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
+**Citations as navigation:** If results include `citations` (file:line references), use those as starting points for codebase exploration in Step 3 instead of searching blind.
+
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
 
 ### Step 2: Understand — Clarify the intent
@@ -34,7 +36,7 @@ Stop when the intent is clear. **IMPORTANT** If simple requests suggest `/task`.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins
+1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins for the current task — then trigger **Knowledge Conflict Protocol** (see Reference)
 2. **Identify context** — files, patterns, dependencies involved
 3. **Surface constraints** — what to use/avoid (only if non-obvious from knowledge base)
 4. **Assess change class** - capture both class + reason:
@@ -142,7 +144,7 @@ For each approved entry
 
 ```bash
 npx superintent knowledge create --stdin <<'KNOWLEDGE'
-{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"]}
+{"title": "{Title}", "namespace": "{namespace from CLAUDE.md}", "content": "{Using knowledge content formats from references}", "category": "{pattern|truth|principle|architecture|gotcha}", "source": "ticket", "originTicketId": "{TICKET-ID}", "originTicketType": "{ticket type}", "confidence": {0-1}, "scope": "{new-only|backward-compatible|global|legacy-frozen}", "tags": ["{tag1}", "{tag2}"], "citations": [{"path": "{file.ts:lineNum}", "contentHash": "{hash}"}]}
 KNOWLEDGE
 ```
 
@@ -178,6 +180,18 @@ Skip when:
 1. **Fixable without changing the plan?** → Fix it, continue
 2. **Plan itself wrong?** → Stop. `AskUserQuestion`: explain what failed. Options: Revise plan | Abort
 3. **Blocked on something external?** → Status `Blocked`. `AskUserQuestion`: describe blocker
+
+### Knowledge Conflict Protocol
+
+When exploration reveals knowledge that contradicts current codebase state:
+
+1. **Use current state** for the task — never trust stale knowledge over code
+2. **Auto-lower confidence** immediately: `npx superintent knowledge update <id> --confidence <current - 0.15>`
+3. **Tell the user** what conflicted and why current state differs
+4. `AskUserQuestion`: "Knowledge `<id>` conflicts with current code. What should we do?"
+   - **Update** → update content to match current state via `npx superintent knowledge update <id> --stdin`
+   - **Deactivate** → `npx superintent knowledge deactivate <id>`
+   - **Ignore** → keep as-is (confidence already lowered)
 
 ### Abort Protocol
 
