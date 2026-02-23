@@ -81,13 +81,13 @@ Every piece of extracted knowledge is typed:
 
 Each knowledge entry carries a confidence score (0–1) that reflects how reliable it is. Scores start based on category — truths at 0.9, patterns at 0.8, principles at 0.75 — then grow with usage and decay with staleness.
 
-### Citations and Stale Detection
+### Citations as Provenance
 
-Knowledge entries include **citations** — `file:line` references with content hashes that anchor knowledge to specific code. When the code at a cited location changes, the hash no longer matches, and the citation is flagged as stale.
+Knowledge entries include **citations** — `file:line` references with file-level hashes that link knowledge to its source code. Line numbers are navigation hints; the hash covers the entire file.
 
-Skills validate citations before trusting knowledge. Stale citations trigger the **Knowledge Conflict Protocol**: confidence is automatically lowered, the user is informed, and they choose whether to update the knowledge, deactivate it, or ignore the drift.
+Validation returns three statuses: **valid** (file unchanged), **changed** (file evolved — informational, no penalty), or **missing** (file deleted — signals knowledge may be orphaned). Only missing files affect confidence scoring.
 
-This means knowledge doesn't silently rot. The system catches outdated information before it misleads the next cycle.
+Skills check citations before using knowledge. Missing source files trigger the **Knowledge Conflict Protocol**: the user is informed and chooses whether to update, deactivate, or keep the knowledge.
 
 ## Why the "Ceremony" Matters
 

@@ -22,15 +22,15 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citation validation:** If results include `citations`, validate them immediately:
+**Citation check:** If results include `citations`, validate them:
 
 ```bash
 npx superintent knowledge validate <id>
 ```
 
-- **All valid** → trust the knowledge, use citations as navigation for Step 2
-- **Some stale** → knowledge may be partially outdated, verify stale paths in Step 2
-- **All stale** → knowledge is untrustworthy, auto-lower confidence: `npx superintent knowledge update <id> --confidence <current - 0.15>` and mention to user
+- **valid** → file unchanged since knowledge was written, trust fully
+- **changed** → source file has evolved — knowledge is likely still valid, use citations as navigation hints for Step 2
+- **missing** → source file was deleted — knowledge may be about removed code, verify in Step 2
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 2.
 

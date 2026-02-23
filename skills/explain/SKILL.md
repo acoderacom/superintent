@@ -20,20 +20,21 @@ Extract key terms from user's question for query.
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Citation validation:** If results include `citations`, validate them before answering:
+**Citation check:** If results include `citations`, validate them before answering:
 
 ```bash
 npx superintent knowledge validate <id>
 ```
 
-- **All valid** → trust the knowledge, use citations to point user to exact code locations
-- **Some/all stale** → note which citations are stale in your answer so the user knows code has changed
+- **valid** → trust the knowledge, use citations to point user to code locations
+- **changed** → source file has evolved — note this in your answer so the user knows code may have shifted
+- **missing** → source file was deleted — warn the user that referenced code no longer exists
 
 ### Step 2: Answer
 
 **Knowledge found (score ≥0.45):**
 
-Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code locations if mentioned. If citations were stale, warn: "Note: some referenced code has changed since this knowledge was captured."
+Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code locations if mentioned. If citations were missing, warn: "Note: some referenced source files no longer exist."
 
 **No codebase exploration.** Knowledge is the authoritative answer. STOP here.
 
