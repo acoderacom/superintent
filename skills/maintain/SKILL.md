@@ -26,7 +26,7 @@ Fetch all entries and validate in parallel (2 calls total):
 
 ```bash
 # Call 1: Full entry data for scoring (run in parallel)
-npx superintent knowledge list --status active --branch-auto --limit 999
+npx superintent knowledge list --status active --branch main --limit 999
 
 # Call 2: Citation health for all entries (run in parallel)
 npx superintent knowledge validate --all
