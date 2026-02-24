@@ -29,7 +29,7 @@ Fetch all entries and validate in parallel (2 calls total):
 npx superintent knowledge list --status active --branch main --limit 999
 
 # Call 2: Citation health for all entries (run in parallel)
-npx superintent knowledge validate --all
+npx superintent knowledge validate --main
 ```
 
 **Join by ID** — match each entry's scoring data (confidence, usage_count, category, created_at) with its citation health (valid/changed/missing counts).

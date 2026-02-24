@@ -27,7 +27,7 @@ Validate every knowledge entry against the real codebase. Fix what drifted. Deac
 Run one command to validate every active entry:
 
 ```bash
-npx superintent knowledge validate --all
+npx superintent knowledge validate --main
 ```
 
 Parse the JSON result. Each entry has `valid`, `changed`, `missing` counts. Classify:
@@ -151,7 +151,7 @@ If any entries were updated or deactivated, suggest: "Run `/maintain` to refresh
 
 | Step | Before (batch-per-entry) | After (group-by-file) |
 |------|--------------------------|----------------------|
-| Validate | N bash calls (batched 10) | 1 call (`--all`) |
+| Validate | N bash calls (batched 10) | 1 call (`--main`) |
 | File reads | up to N explore calls | O(unique files) |
 | Heal updates | N bash calls | N bash calls (parallel) |
 
