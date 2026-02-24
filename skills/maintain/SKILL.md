@@ -18,38 +18,26 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 
 ## Workflow
 
-### Step 1: Inventory — Gather and validate in batches
+### Step 1: Inventory — Gather and validate in two calls
 
 Read the project's `CLAUDE.md` file. Identify the `<!-- superintent:knowledge:start -->` and `<!-- superintent:knowledge:end -->` markers. If markers don't exist yet, note that — you'll add them in Step 4.
 
-Process knowledge entries in batches of 10. For each batch:
-
-1. **Fetch** the next 10 entries:
+Fetch all entries and validate in parallel (2 calls total):
 
 ```bash
-npx superintent knowledge list --status active --branch-auto --limit 10 --offset 0
+# Call 1: Full entry data for scoring (run in parallel)
+npx superintent knowledge list --status active --branch-auto --limit 999
+
+# Call 2: Citation health for all entries (run in parallel)
+npx superintent knowledge validate --all
 ```
 
-2. **Validate** all entries in the batch in parallel:
+**Join by ID** — match each entry's scoring data (confidence, usage_count, category, created_at) with its citation health (valid/changed/missing counts).
 
-```bash
-npx superintent knowledge validate <id1>
-npx superintent knowledge validate <id2>
-# ... all 10 in parallel
-```
-
-3. **Score** each entry using the scoring criteria from Reference. Check citation status:
-   - **valid** → trust fully, score normally
-   - **changed** → likely still valid, score with lower weight
-   - **missing** → flag for deactivation, exclude from ranking
-
-4. **Next batch** — increment offset by 10 and repeat:
-
-```bash
-npx superintent knowledge list --status active --branch-auto --limit 10 --offset 10
-```
-
-Stop when a batch returns fewer than 10 results. Accumulate scored entries across all batches.
+**Score** each entry using the scoring criteria from Reference. Check citation status:
+- **valid** → trust fully, score normally
+- **changed** → likely still valid, score with lower weight
+- **missing** → flag for deactivation, exclude from ranking
 
 ### Step 2: Rank — Sort accumulated scores
 
