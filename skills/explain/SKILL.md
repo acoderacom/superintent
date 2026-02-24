@@ -10,7 +10,7 @@ Answer questions about concepts, patterns, architecture, or decisions.
 
 ## Workflow
 
-### Step 1: Search Knowledge (BLOCKING)
+### Step 1: Search knowledge (BLOCKING)
 
 ```bash
 npx superintent knowledge search "<intent>" --branch-auto --limit 3
@@ -20,7 +20,7 @@ Extract key terms from user's question for query.
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — run once per entry, all in parallel:
+**Validate every result with citations** — run once per entry, all in parallel.
 
 ```bash
 npx superintent knowledge validate <id>
@@ -44,4 +44,5 @@ Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code
 
 **No knowledge found (all scores <0.45):**
 
- **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel. After answering, suggest `/learn` if the topic is worth capturing.
+ **Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
+   - After answering, suggest `/learn` if the topic is worth capturing

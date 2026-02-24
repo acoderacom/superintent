@@ -32,7 +32,7 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — run once per entry, all in parallel:
+**Validate every result with citations** — run once per entry, all in parallel.
 
 ```bash
 npx superintent knowledge validate <id>
@@ -41,7 +41,7 @@ npx superintent knowledge validate <id>
 Check each status:
 
 - **valid** → file unchanged since knowledge was written, trust fully
-- **changed** → source file has evolved — knowledge is likely still valid, use citations as navigation hints for Step 3
+- **changed** → source file has evolved — knowledge is likely still valid
 - **missing** → source file was deleted — knowledge may be about removed code, trigger **Knowledge Conflict Protocol**
 
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
@@ -61,13 +61,15 @@ Don't over-ask. Capture the big picture — details get resolved per-ticket.
 
 ### Step 3: Explore — Gather context from codebase
 
-1. **Explore relevant codebase** — use `subagent_type=Explore` understand current state, **Parallel exploration:** For complex codebase, run multiple Explore agents in parallel, if knowledge found → start from patterns/files, else broad. If knowledge conflicts with current state, current state wins — then trigger **Knowledge Conflict Protocol**
+1. **Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
+   - Use citations as navigation hints when knowledge found, otherwise explore broadly
+   - When knowledge conflicts with current state, current state wins — trigger **Knowledge Conflict Protocol**
 2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**
 3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**
 
 Present findings conversationally as you go.
 
-**Knowledge Conflict Protocol:** Triggered when citation validation (Step 1) finds missing citations (source files deleted), or when exploration reveals knowledge contradicts current code: (1) tell the user — include citation validation results if available, (2) ask: Update content | Deactivate | Ignore.
+**Knowledge Conflict Protocol:** Triggered when citation validation (Step 1) finds missing citations, or when exploration reveals knowledge contradicts current code: (1) tell the user — include validation results if available, (2) ask: Update content | Deactivate | Ignore.
 
 ### Step 4: Compose & Save — Create the spec
 

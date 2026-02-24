@@ -6,7 +6,7 @@ description: Validate and heal the knowledge base against the current codebase. 
 
 # Doctor
 
-Validate every knowledge entry against the real codebase. Fix what drifted. Deactive what's gone. The knowledge base immune system.
+Validate every knowledge entry against the real codebase. Fix what drifted. Deactivate what's gone. The knowledge base immune system.
 
 **When to use:**
 
@@ -57,7 +57,8 @@ If all valid → "Knowledge base is healthy. No healing needed." → Done.
 
 ### Step 3: Inspect Changed — Read files, compare content
 
-For each `changed` entry, use `subagent_type=Explore` to read the cited files. **Parallel exploration:** batch changed entries that cite the same files into one explore call.
+For each `changed` entry, use `subagent_type=Explore` to read the cited files.
+   - Batch changed entries that cite the same files into one explore call
 
 For each entry, determine:
 
@@ -138,25 +139,10 @@ If any entries were updated or deactivated, suggest: "Run `/maintain` to refresh
 
 ### Confidence Adjustments During Healing
 
-| Scenario | Adjustment |
-| --- | --- |
-| All citations valid | No change |
-| Citations refreshed (content still accurate) | +0.05 (capped at 0.95) |
-| Content corrected (partial drift) | Reset to category default |
-| Kept as-is despite changes | -0.10 |
-
-### Automated Mode (--auto)
-
-When triggered by cron or nightly job, skip Step 5 user decisions. Instead:
-
-- Content fundamentally wrong → deactivate automatically
-- Partial missing → deactivate automatically
-- Log all decisions to stdout for morning review
-
-```bash
-# Cron example: heal every night at 2am
-0 2 * * * cd /path/to/project && npx superintent heal --auto >> /var/log/superintent-heal.log 2>&1
-```
+- **All citations valid** — no change
+- **Citations refreshed** (content still accurate) — +0.05 (capped at 0.95)
+- **Content corrected** (partial drift) — reset to category default
+- **Kept as-is** despite changes — -0.10
 
 ### Content Formats for Updates
 
