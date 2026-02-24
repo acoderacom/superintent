@@ -171,6 +171,12 @@ If extraction revealed that existing knowledge should be updated:
   `npx superintent knowledge update <id> --confidence 0.95`
 - **Deactivate** disproven knowledge:
   `npx superintent knowledge deactivate <id>`
+- **Update stale citations** — if cited files were modified during this ticket, update the knowledge entry with fresh citations (pass `path` only, CLI auto-generates `fileHash`):
+  ```bash
+  npx superintent knowledge update <id> --stdin <<'KNOWLEDGE'
+  {"citations": [{"path": "file.ts:1"}, ...]}
+  KNOWLEDGE
+  ```
 
 **Judgment: What's Worth Extracting?**
 

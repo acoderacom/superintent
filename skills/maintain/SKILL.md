@@ -18,29 +18,40 @@ Distill the most important knowledge into CLAUDE.md. Knowledge DB is the source 
 
 ## Workflow
 
-### Step 1: Inventory — Gather both sides
+### Step 1: Inventory — Gather and validate in batches
+
+Read the project's `CLAUDE.md` file. Identify the `<!-- superintent:knowledge:start -->` and `<!-- superintent:knowledge:end -->` markers. If markers don't exist yet, note that — you'll add them in Step 4.
+
+Process knowledge entries in batches of 10. For each batch:
+
+1. **Fetch** the next 10 entries:
 
 ```bash
-npx superintent knowledge list --status active --branch-auto --limit 100
+npx superintent knowledge list --status active --branch-auto --limit 10 --offset 0
 ```
 
-**Validate every result with citations** — run once per entry, all in parallel.
+2. **Validate** all entries in the batch in parallel:
 
 ```bash
-npx superintent knowledge validate <id>
+npx superintent knowledge validate <id1>
+npx superintent knowledge validate <id2>
+# ... all 10 in parallel
 ```
 
-Check each status:
+3. **Score** each entry using the scoring criteria from Reference. Check citation status:
+   - **valid** → trust fully, score normally
+   - **changed** → likely still valid, score with lower weight
+   - **missing** → flag for deactivation, exclude from ranking
 
-- **valid** → file unchanged since knowledge was written, trust fully
-- **changed** → source file has evolved — knowledge is likely still valid, score with lower weight
-- **missing** → source file was deleted — knowledge may be about removed code, flag for deactivation in Step 2
+4. **Next batch** — increment offset by 10 and repeat:
 
-Read the project's `CLAUDE.md` file.
+```bash
+npx superintent knowledge list --status active --branch-auto --limit 10 --offset 10
+```
 
-Identify the `<!-- superintent:knowledge:start -->` and `<!-- superintent:knowledge:end -->` markers. If markers don't exist yet, note that — you'll add them in Step 4.
+Stop when a batch returns fewer than 10 results. Accumulate scored entries across all batches.
 
-### Step 2: Rank — Score knowledge entries
+### Step 2: Rank — Sort accumulated scores
 
 Score each active knowledge entry. **Higher score = more important.**
 

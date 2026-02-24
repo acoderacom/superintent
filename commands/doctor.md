@@ -22,32 +22,41 @@ Validate every knowledge entry against the real codebase. Fix what drifted. Deac
 
 ## Workflow
 
-### Step 1: Inventory — List all active entries
+### Step 1: Inventory & Validate — Batch processing
+
+Process knowledge entries in batches of 10. For each batch:
+
+1. **Fetch** the next 10 entries:
 
 ```bash
-npx superintent knowledge list --status active --branch-auto --limit 100
+npx superintent knowledge list --status active --branch-auto --limit 10 --offset 0
 ```
 
-Count total entries. Report: "Found {N} active knowledge entries. Starting validation."
-
-### Step 2: Validate — Check every citation
-
-Run validation for **all entries in parallel**:
+2. **Validate** all entries in the batch in parallel:
 
 ```bash
-npx superintent knowledge validate <id>
+npx superintent knowledge validate <id1>
+npx superintent knowledge validate <id2>
+# ... all entries in the batch in parallel
 ```
 
-Group results into three buckets:
+3. **Classify** each entry into buckets:
+   - **valid** — all citations match current files. No action needed.
+   - **changed** — file exists but hash differs. Needs inspection.
+   - **missing** — file deleted. Needs resolution.
 
-- **valid** — all citations match current files. No action needed.
-- **changed** — file exists but hash differs. Needs inspection.
-- **missing** — file deleted. Needs resolution.
+4. **Next batch** — increment offset by 10 and repeat:
+
+```bash
+npx superintent knowledge list --status active --branch-auto --limit 10 --offset 10
+```
+
+Stop when a batch returns fewer than 10 results. Accumulate classified entries across all batches.
 
 Report summary:
 
 ```
-Validation complete:
+Validation complete ({N} entries across {B} batches):
   {X} valid — no action needed
   {Y} changed — will inspect
   {Z} missing — will resolve
