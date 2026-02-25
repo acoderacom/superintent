@@ -21,7 +21,7 @@ Always search knowledge before exploring the codebase — it is the primary sour
 - **Get**: `npx superintent ticket get <id>`
 - **Preview**: `npx superintent ticket preview <id>`
 - **Update**: `npx superintent ticket update <id>` (--stdin, --status, --complete-all, --complete-task, --complete-dod, --comment, --author, --context, --spec)
-- **List**: `npx superintent ticket list [--status <status>] [--limit N]`
+- **List**: `npx superintent ticket list [--status <status>] [--limit N] [--offset N]`
 - **Delete**: `npx superintent ticket delete <id>`
 
 ### Spec Operations
@@ -29,7 +29,7 @@ Always search knowledge before exploring the codebase — it is the primary sour
 - **Create**: `npx superintent spec create --stdin` (JSON: title, content, author)
 - **Get**: `npx superintent spec get <id>`
 - **Preview**: `npx superintent spec preview <id>`
-- **List**: `npx superintent spec list [--limit N]`
+- **List**: `npx superintent spec list [--limit N] [--offset N]`
 - **Update**: `npx superintent spec update <id>` (--stdin, --title, --comment, --author)
 - **Delete**: `npx superintent spec delete <id>`
 
@@ -40,10 +40,10 @@ Always search knowledge before exploring the codebase — it is the primary sour
 - **Create**: `npx superintent knowledge create --stdin` (JSON: title, namespace, content, category, source, confidence, scope, tags)
 - **Get**: `npx superintent knowledge get <id>`
 - **Preview**: `npx superintent knowledge preview <id>`
-- **List**: `npx superintent knowledge list` (--namespace, --category, --scope, --source, --author, --branch, --branch-auto, --status, --limit)
+- **List**: `npx superintent knowledge list` (--namespace, --category, --scope, --source, --author, --branch, --branch-auto, --status, --limit, --offset)
 - **Update**: `npx superintent knowledge update <id>` (--stdin, --title, --namespace, --category, --tags, --scope, --origin, --confidence, --comment, --author)
 - **Activate**: `npx superintent knowledge activate <id>`
 - **Deactivate**: `npx superintent knowledge deactivate <id>`
 - **Promote**: `npx superintent knowledge promote <id>`
-- **Validate**: `npx superintent knowledge validate <id>[,<id2>,...] [--all]`
+- **Validate**: `npx superintent knowledge validate <id>[,<id2>,...] [--all] [--main]`
 - **Recalculate**: `npx superintent knowledge recalculate [--dry-run]`

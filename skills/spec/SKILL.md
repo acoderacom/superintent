@@ -32,18 +32,6 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — validate all in a single call using comma-separated IDs.
-
-```bash
-npx superintent knowledge validate <id1>,<id2>,<id3>
-```
-
-Check each status:
-
-- **valid** → file unchanged since knowledge was written, trust fully
-- **changed** → source file has evolved — knowledge is likely still valid
-- **missing** → source file was deleted — knowledge may be about removed code, trigger **Knowledge Conflict Protocol**
-
 **Don't explore codebase yet** — knowledge informs exploration in Step 3.
 
 ### Step 2: Understand — Clarify the intent
@@ -62,14 +50,18 @@ Don't over-ask. Capture the big picture — details get resolved per-ticket.
 ### Step 3: Explore — Gather context from codebase
 
 1. **Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
-   - Use citations as navigation hints when knowledge found, otherwise explore broadly
-   - When knowledge conflicts with current state, current state wins — trigger **Knowledge Conflict Protocol**
+   - Use citation file paths to guide where to explore. If no knowledge was found, explore broadly
+   - **If a cited file doesn't exist** → validate those knowledge entries and trigger **Knowledge Conflict Protocol**:
+     ```bash
+     npx superintent knowledge validate <id1>,<id2>,<id3>
+     ```
+   - When knowledge conflicts with current state, current state wins
 2. **Capture current state** — what exists today, how it works, what's the pain. This feeds into **Background**
 3. **Surface constraints** — technical/business rules, APIs, patterns, compatibility requirements. This feeds into **Constraints**
 
 Present findings conversationally as you go.
 
-**Knowledge Conflict Protocol:** Triggered when citation validation (Step 1) finds missing citations, or when exploration reveals knowledge contradicts current code: (1) tell the user — include validation results if available, (2) ask: Update content | Deactivate | Ignore.
+**Knowledge Conflict Protocol:** Triggered when exploration finds cited files no longer exist, or knowledge contradicts current code: (1) validate entries: `npx superintent knowledge validate <id1>,<id2>,<id3>`, (2) tell the user what conflicted, (3) ask: Update content | Deactivate | Ignore.
 
 ### Step 4: Compose & Save — Create the spec
 

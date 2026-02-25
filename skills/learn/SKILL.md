@@ -20,18 +20,6 @@ npx superintent knowledge search "<topic keywords>" --branch-auto --limit 3
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — validate all in a single call using comma-separated IDs.
-
-```bash
-npx superintent knowledge validate <id1>,<id2>,<id3>
-```
-
-Check each status:
-
-- **valid** → file unchanged since knowledge was written, trust fully
-- **changed** → source file has evolved — knowledge is likely still valid
-- **missing** → source file was deleted — knowledge may be about removed code, verify in Step 2
-
 If strong matches exist → present them. `AskUserQuestion`: "Existing knowledge found. Still explore, or is this sufficient?" → Explore deeper | Sufficient
 
 ### Step 2: Explore — Understand the topic
@@ -39,8 +27,9 @@ If strong matches exist → present them. `AskUserQuestion`: "Existing knowledge
 Use Task tool with `subagent_type=Explore` to understand the topic.
 
 For complex topics, run multiple Explore agents in parallel (one message, multiple Task calls) — e.g., architecture + patterns + usage.
-   - Use citations as navigation hints when knowledge found, otherwise explore broadly
-   - When knowledge conflicts with current state, current state wins — mention the conflict to the user
+   - Use citation file paths to guide where to explore. If no knowledge was found, explore broadly
+   - **If a cited file doesn't exist** → validate those knowledge entries: `npx superintent knowledge validate <id1>,<id2>,<id3>` — mention the conflict to the user
+   - When knowledge conflicts with current state, current state wins
 
 Present findings conversationally as you go.
 

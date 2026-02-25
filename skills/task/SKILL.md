@@ -22,25 +22,14 @@ npx superintent knowledge search "<user's intent keywords>" --branch-auto --limi
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — validate all in a single call using comma-separated IDs.
-
-```bash
-npx superintent knowledge validate <id1>,<id2>,<id3>
-```
-
-Check each status:
-
-- **valid** → file unchanged since knowledge was written, trust fully
-- **changed** → source file has evolved — knowledge is likely still valid
-- **missing** → source file was deleted — knowledge may be about removed code, verify in Step 2
-
 **Don't explore codebase yet** — knowledge informs exploration in Step 2.
 
 ### Step 2: Implementation — The work
 
 1. **Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
-   - Use citations as navigation hints when knowledge found, otherwise explore broadly
-   - When knowledge conflicts with current state, current state wins — mention the conflict to the user
+   - Use citation file paths to guide where to explore. If no knowledge was found, explore broadly
+   - **If a cited file doesn't exist** → validate those knowledge entries: `npx superintent knowledge validate <id1>,<id2>,<id3>` — mention the conflict to the user
+   - When knowledge conflicts with current state, current state wins
 2. Implement directly — no ticket, no task tracking
 3. Run build and code checks (test, lint, typecheck)
 4. Fix failures → re-run

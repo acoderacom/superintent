@@ -20,23 +20,11 @@ Extract key terms from user's question for query.
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — validate all in a single call using comma-separated IDs.
-
-```bash
-npx superintent knowledge validate <id1>,<id2>,<id3>
-```
-
-Check each status:
-
-- **valid** → trust the knowledge, use citations to point user to code locations
-- **changed** → source file has evolved — note this in your answer so the user knows code may have shifted
-- **missing** → source file was deleted — warn the user that referenced code no longer exists
-
 ### Step 2: Answer
 
 **Knowledge found (score ≥0.45):**
 
-Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code locations if mentioned. If citations were missing, warn: "Note: some referenced source files no longer exist."
+Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code locations from citations.
 
 **No codebase exploration.** Knowledge is the authoritative answer. STOP here.
 
@@ -44,5 +32,7 @@ Synthesize explanation from knowledge. Cite: "Based on [title]...". Include code
 
 **No knowledge found (all scores <0.45):**
 
- **Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
+**Explore relevant codebase** — use `subagent_type=Explore` to understand current state. For complex codebases, run multiple in parallel.
+   - Use citation file paths to guide where to explore. If no knowledge was found, explore broadly
+   - **If a cited file doesn't exist** → validate those knowledge entries: `npx superintent knowledge validate <id1>,<id2>,<id3>` — warn user that referenced code no longer exists
    - After answering, suggest `/learn` if the topic is worth capturing
