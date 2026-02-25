@@ -20,10 +20,10 @@ npx superintent knowledge search "<topic keywords>" --branch-auto --limit 3
 
 **Semantic Search:** ≥0.45 relevant, ≥0.55 strong. Don't discard low scores.
 
-**Validate every result with citations** — run once per entry, all in parallel.
+**Validate every result with citations** — validate all in a single call using comma-separated IDs.
 
 ```bash
-npx superintent knowledge validate <id>
+npx superintent knowledge validate <id1>,<id2>,<id3>
 ```
 
 Check each status:
