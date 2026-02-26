@@ -77,9 +77,7 @@ Map file-level verdicts back to entries:
 → Refresh citation hashes only (pass ALL citations, not just changed ones — CLI auto-generates fresh hashes):
 
 ```bash
-npx superintent knowledge update <id> --stdin <<'KNOWLEDGE'
-{"citations": [{"path": "{file1:line}"}, {"path": "{file2:line}"}]}
-KNOWLEDGE
+npx superintent knowledge update <id> --json '{"citations": [{"path": "{file1:line}"}, {"path": "{file2:line}"}]}'
 ```
 
 Run all hash-refresh updates **in parallel** (up to 10 at a time).
@@ -89,9 +87,7 @@ Run all hash-refresh updates **in parallel** (up to 10 at a time).
 → Update content and refresh citations:
 
 ```bash
-npx superintent knowledge update <id> --stdin <<'KNOWLEDGE'
-{"content": "{corrected content using knowledge content formats}", "citations": [{"path": "{file:line}"}]}
-KNOWLEDGE
+npx superintent knowledge update <id> --json '{"content": "{corrected content using knowledge content formats}", "citations": [{"path": "{file:line}"}]}'
 ```
 
 **C. Any changed citation → wrong**: Knowledge fundamentally contradicts current code.
