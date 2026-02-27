@@ -22,67 +22,57 @@ Validate every knowledge entry against the real codebase. Fix what drifted. Deac
 
 ## Workflow
 
-### Step 1: Validate All — Single pass
+### Step 1: Validate & Heal — Fast pass
 
-Run one command to validate every active entry:
+Run one command to validate and auto-fix hash drift:
 
 ```bash
-npx superintent knowledge validate --main
+npx superintent knowledge validate --main --heal
 ```
 
-Parse the JSON result. Each entry has `valid`, `changed`, `missing` counts. Classify:
+The `--heal` flag auto-fixes entries where files still exist but hashes drifted (`changed > 0 && missing === 0`). It updates citation hashes directly in the DB using hashes already computed during validation — no file re-reads.
 
-- **valid** — `changed == 0 && missing == 0`. No action needed.
-- **changed** — `changed > 0 && missing == 0`. File exists but hash differs.
-- **missing** — `missing > 0`. At least one cited file deleted.
+Parse the JSON result. Key fields: `validated`, `healed`, `entries[]` (each with `valid`, `changed`, `missing`, `healed` fields).
+
+Classify entries after healing:
+
+- **valid** — `changed == 0 && missing == 0 && healed == false`. Untouched.
+- **healed** — `healed == true`. Hash drift auto-fixed. Needs content verification (Step 2).
+- **missing** — `missing > 0`. At least one cited file deleted. Needs resolution (Step 3).
 
 Report summary:
 
 ```
 Validation complete ({N} entries):
   {X} valid — no action needed
-  {Y} changed — will inspect
+  {H} healed — hashes refreshed, will verify content
   {Z} missing — will resolve
 ```
 
-If all valid → "Knowledge base is healthy. No healing needed." → Done.
+If no healed and no missing → "Knowledge base is healthy. No healing needed." → Done.
 
-### Step 2: Group Changed Entries by File
+### Step 2: Verify Healed — Content drift check
 
-Build a **file → entries map** from the validation results. For each changed entry, extract the citation paths with `status: "changed"` and group entries by their changed file paths.
+For healed entries, verify that the knowledge content still matches reality. The hash changed because the file changed — the content may have drifted too.
 
-Example: if entries A, B, C all cite `src/commands/knowledge.ts` as changed, they form one group.
+**Group healed entries by file.** Build a file → entries map from healed entries' citation paths. Then split into batches of ~5 files each.
 
-This is the key optimization — instead of reading the same file N times for N entries, read it once and decide for all N entries.
+Launch **parallel** `subagent_type=Explore` agents — one per batch. Each agent's prompt should:
 
-### Step 3: Inspect Changed — Read each unique file once
+1. List the files in its batch to read
+2. For each file, list which knowledge entries cite it (title + brief content summary)
+3. Verify: does the file still support what the knowledge claims?
 
-Launch **one** `subagent_type=Explore` agent with all unique changed file paths. The prompt should:
-
-1. List all unique changed files to read
-2. For each file, list which knowledge entries cite it and what those entries describe (title + brief content summary)
-3. Ask the agent to verify: does the file still support what the knowledge claims?
-
-The explore agent reads each file once and returns a per-file verdict:
+Each agent returns a per-file verdict:
 - **accurate** — file changed but knowledge claims still hold
 - **drifted** — knowledge is partially outdated, note what changed
 - **wrong** — knowledge fundamentally contradicts the current file
 
-### Step 4: Apply Verdicts to Entries
+**Apply verdicts:**
 
-Map file-level verdicts back to entries:
+**A. All citations → accurate**: Content verified. No further action.
 
-**A. All changed citations → accurate**: Content still describes reality.
-
-→ Refresh citation hashes only (pass ALL citations, not just changed ones — CLI auto-generates fresh hashes):
-
-```bash
-npx superintent knowledge update <id> --json '{"citations": [{"path": "{file1:line}"}, {"path": "{file2:line}"}]}'
-```
-
-Run all hash-refresh updates **in parallel** (up to 10 at a time).
-
-**B. Any changed citation → drifted**: Knowledge partially outdated.
+**B. Any citation → drifted**: Knowledge partially outdated.
 
 → Update content and refresh citations:
 
@@ -90,13 +80,13 @@ Run all hash-refresh updates **in parallel** (up to 10 at a time).
 npx superintent knowledge update <id> --json '{"content": "{corrected content using knowledge content formats}", "citations": [{"path": "{file:line}"}]}'
 ```
 
-**C. Any changed citation → wrong**: Knowledge fundamentally contradicts current code.
+**C. Any citation → wrong**: Knowledge contradicts current code.
 
-→ Flag for user decision (Step 6).
+→ Flag for user decision (Step 4).
 
-### Step 5: Resolve Missing — Handle deleted files
+### Step 3: Resolve Missing — Handle deleted files
 
-For each `missing` entry:
+For each entry with `missing > 0`:
 
 **A. All citations missing** — the code this knowledge described is gone.
 
@@ -106,30 +96,30 @@ For each `missing` entry:
 npx superintent knowledge deactivate <id>
 ```
 
-**B. Some citations missing, some valid/changed** — partial deletion.
+**B. Some citations missing, some valid** — partial deletion.
 
-→ Flag for user decision (Step 6).
+→ Flag for user decision (Step 4).
 
-### Step 6: User Decisions — Present flagged entries
+### Step 4: User Decisions — Present flagged entries
 
-For each flagged entry from Steps 4C and 5B, present to the user one at a time:
+For each flagged entry from Steps 2C and 3B, present to the user one at a time:
 
 1. Show title, content, category, confidence
-2. Show what changed or went missing
+2. Show what changed, drifted, or went missing
 3. `AskUserQuestion`: "What should we do with this entry?"
    - **Update** — agent rewrites content based on current codebase state
    - **Deactivate** — entry is no longer relevant
    - **Keep as-is** — knowledge is still conceptually valid despite code changes
 
-### Step 7: Report — Summary of actions taken
+### Step 5: Report — Summary of actions taken
 
 Report all actions:
 
 ```
 Knowledge Base Heal Complete:
   {A} entries valid — no changes
-  {B} entries healed — citations refreshed
-  {C} entries updated — content corrected
+  {B} entries healed — hashes refreshed, content verified accurate
+  {C} entries updated — content corrected for drift
   {D} entries deactivated — source code removed
   {E} entries kept as-is — user decided
 
@@ -143,18 +133,20 @@ If any entries were updated or deactivated, suggest: "Run `/maintain` to refresh
 
 ## Reference
 
-### Call Budget Comparison
+### Call Budget
 
-| Step | Before (batch-per-entry) | After (group-by-file) |
-|------|--------------------------|----------------------|
-| Validate | N bash calls (batched 10) | 1 call (`--main`) |
-| File reads | up to N explore calls | O(unique files) |
-| Heal updates | N bash calls | N bash calls (parallel) |
+| Step | Calls |
+|------|-------|
+| Validate + heal | 1 CLI call (`--main --heal`) |
+| Verify healed | ceil(unique files / 5) parallel Explore agents |
+| Deactivate missing | 1 per fully-missing entry |
+| Content updates | 1 per drifted entry |
+| User decisions | 1 per flagged entry |
 
 ### Confidence Adjustments During Healing
 
 - **All citations valid** — no change
-- **Citations refreshed** (content still accurate) — +0.05 (capped at 0.95)
+- **Healed + verified accurate** — +0.05 (capped at 0.95)
 - **Content corrected** (partial drift) — reset to category default
 - **Kept as-is** despite changes — -0.10
 
