@@ -77,7 +77,7 @@ Each agent returns a per-file verdict:
 → Update content and refresh citations:
 
 ```bash
-npx superintent knowledge update <id> --json '{"content": "{corrected content using knowledge content formats}", "citations": [{"path": "{file:line}"}]}'
+npx superintent knowledge update <id> --json '{"content": "{corrected content using knowledge content formats}", "citations": [{"path": "{file:line}"}]}' --comment "Doctor heal: {brief description of what drifted and what was corrected}" --author "doctor"
 ```
 
 **C. Any citation → wrong**: Knowledge contradicts current code.
@@ -90,9 +90,10 @@ For each entry with `missing > 0`:
 
 **A. All citations missing** — the code this knowledge described is gone.
 
-→ Deactivate:
+→ Deactivate with comment:
 
 ```bash
+npx superintent knowledge update <id> --comment "Doctor heal: deactivated — all cited files removed" --author "doctor"
 npx superintent knowledge deactivate <id>
 ```
 
@@ -107,9 +108,9 @@ For each flagged entry from Steps 2C and 3B, present to the user one at a time:
 1. Show title, content, category, confidence
 2. Show what changed, drifted, or went missing
 3. `AskUserQuestion`: "What should we do with this entry?"
-   - **Update** — agent rewrites content based on current codebase state
-   - **Deactivate** — entry is no longer relevant
-   - **Keep as-is** — knowledge is still conceptually valid despite code changes
+   - **Update** — agent rewrites content based on current codebase state, add `--comment "Doctor heal: {what changed}" --author "doctor"`
+   - **Deactivate** — entry is no longer relevant, add comment before deactivating: `--comment "Doctor heal: deactivated — {reason}" --author "doctor"`
+   - **Keep as-is** — knowledge is still conceptually valid despite code changes, add `--comment "Doctor heal: kept as-is — {reason}" --author "doctor"`
 
 ### Step 5: Report — Summary of actions taken
 

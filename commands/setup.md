@@ -22,7 +22,7 @@ If fails → guide user to [install.md](../references/install.md), then return h
 
 ## Step 3: Create Config
 
-Ensure `.gitignore` covers `.superintent/.env` and `.superintent/*.db`. Read `.gitignore` (create if missing), then add only lines that aren't already present. Do not append duplicates.
+Ensure `.gitignore` covers `.superintent/.env`, `.superintent/*.db`, `.superintent/*.db-shm`, and `.superintent/*.db-wal`. Read `.gitignore` (create if missing), then add only lines that aren't already present. Do not append duplicates.
 
 ### If Local:
 
