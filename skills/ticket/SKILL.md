@@ -191,8 +191,8 @@ Triggered when **exploration** (Step 3) finds cited files no longer exist, or kn
 1. **Use current state** for the task — never trust orphaned knowledge over code
 2. **Tell the user** what conflicted — include citation validation results if available (e.g., "2/3 citations missing — source files were deleted")
 3. `AskUserQuestion`: "Knowledge `<id>` may be outdated. What should we do?"
-   - **Update** → update content to match current state via `npx superintent knowledge update <id> --json '<data>'`
-   - **Deactivate** → `npx superintent knowledge deactivate <id>`
+   - **Update** → `npx superintent knowledge update <id> --json '<data>' --comment "Knowledge conflict: {what changed}" --author "ticket"`
+   - **Deactivate** → `npx superintent knowledge update <id> --comment "Knowledge conflict: deactivated — {reason}" --author "ticket"` then `npx superintent knowledge deactivate <id>`
    - **Ignore** → keep as-is, confidence will be adjusted by `recalculate` based on missing citations
 
 ### Abort Protocol
