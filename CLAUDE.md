@@ -45,5 +45,5 @@ Always search knowledge before exploring the codebase — it is the primary sour
 - **Activate**: `npx superintent knowledge activate <id>`
 - **Deactivate**: `npx superintent knowledge deactivate <id>`
 - **Promote**: `npx superintent knowledge promote <id>`
-- **Validate**: `npx superintent knowledge validate <id>[,<id2>,...] [--all] [--main]`
+- **Validate**: `npx superintent knowledge validate <id>[,<id2>,...] [--all] [--main] [--heal --hash] [--heal --hash --content]`
 - **Recalculate**: `npx superintent knowledge recalculate [--dry-run]`

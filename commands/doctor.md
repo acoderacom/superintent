@@ -27,7 +27,7 @@ Validate every knowledge entry against the real codebase. Fix what drifted. Deac
 Run one command to validate and auto-fix hash drift:
 
 ```bash
-npx superintent knowledge validate --main --heal
+npx superintent knowledge validate --main --heal --hash
 ```
 
 The `--heal` flag auto-fixes entries where files still exist but hashes drifted (`changed > 0 && missing === 0`). It updates citation hashes directly in the DB using hashes already computed during validation — no file re-reads.
@@ -138,7 +138,7 @@ If any entries were updated or deactivated, suggest: "Run `/maintain` to refresh
 
 | Step | Calls |
 |------|-------|
-| Validate + heal | 1 CLI call (`--main --heal`) |
+| Validate + heal | 1 CLI call (`--main --heal --hash`) |
 | Verify healed | ceil(unique files / 5) parallel Explore agents |
 | Deactivate missing | 1 per fully-missing entry |
 | Content updates | 1 per drifted entry |
